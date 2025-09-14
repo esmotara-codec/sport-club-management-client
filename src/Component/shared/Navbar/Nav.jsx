@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import logo from './../../../assets/sportclub-logo.jpg';
-import DynamicLink from './DynamicLink';
+
 import { Menu, X } from 'lucide-react';
 import { Link } from 'react-router';
-import Container from '../layout/Container/Container';
-import { AuthContext } from '../context/AuthContext';
+import DynamicLink from './DynamicLink';
+import Container from '../../layout/Container';
 
 
 const navigationData = [
@@ -38,23 +38,20 @@ const Nav = () => {
     const links = navigationData.map((route) => <DynamicLink key={route.id} route={route} />)
   
     
-
-   
-
    
     return (
-        <div className='bg-white text-[#24ab63]  relative shadow-md ' >
+        <div className='bg-white text-[#108ac2]  relative shadow-md ' >
             <Container>
                 <nav className='container mx-auto flex flex-row  justify-between md:gap-10 lg:gap-2  '>
                     <div className='relative flex gap-2 items-center p-3' onClick={() => setMenuOpen(!menuOpen)}>
                         {
                             menuOpen ?
-                                <X className='lg:hidden text-[#24ab63] ' /> :
-                                <Menu className='lg:hidden text-[#24ab63]' size={20} />
+                                <X className='lg:hidden text-[#108ac2] ' /> :
+                                <Menu className='lg:hidden text-[#108ac2]' size={20} />
                         }
                         {/* Mobile Responsive */}
                         <ul className={`lg:hidden  absolute z-10  py-2 
-                     ${menuOpen ? 'top-19 md:top-23 left-0' : '-top-80 mt-0'} bg-[#24ab63] text-white font-semibold `}>
+                     ${menuOpen ? 'top-19 md:top-23 left-0' : '-top-80 mt-0'} bg-[#108ac2] text-white font-semibold `}>
 
                             <div className=''>
                                 {links}
@@ -66,9 +63,9 @@ const Nav = () => {
                         <div className='flex items-center justify-center gap-2 md:gap-3 '>
                              <img src={logo}
                                 alt="sportclub-Logo"
-                                className='w-[30px] md:w-[70px]' />
+                                className='w-[50px] md:w-[100px]' />
                            <Link to="/">
-                            <h3 className='font-bold text-[16px] md:text-2xl text-black'>FoodExp.</h3>
+                            <h3 className='font-bold text-[16px] md:text-2xl text-black'></h3>
                            </Link>
                         </div>
                     </div>
@@ -83,12 +80,12 @@ const Nav = () => {
                                 <div className='flex gap-2 '>
                                     <Link to="/login">
                                         <button
-                                            className='btn border border-none bg-[#24ab63] text-white text-sm md:text-xl lg:text-sm py-2 lg:py-2 px-3 md:px-5 rounded-lg '>
+                                            className='btn border border-none bg-[#108ac2] text-white text-sm md:text-xl lg:text-sm py-2 lg:py-2 px-3 md:px-5 rounded-lg '>
                                             Login</button>
                                     </Link>
                                     <Link to="/sign-up">
                                         <button
-                                            className='btn border border-none bg-[#24ab63] text-white text-sm md:text-xl lg:text-sm py-2 lg:py-2 px-3 md:px-5 rounded-lg '>
+                                            className='btn border border-none bg-[#108ac2] text-white text-sm md:text-xl lg:text-sm py-2 lg:py-2 px-3 md:px-5 rounded-lg '>
                                             Sign Up</button>
                                     </Link>
                                 </div>
