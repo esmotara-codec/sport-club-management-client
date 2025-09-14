@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import logo from './../../assets/shelf-life.png';
+import logo from './../../../assets/sportclub-logo.jpg';
 import DynamicLink from './DynamicLink';
 import { Menu, X } from 'lucide-react';
 import { Link } from 'react-router';
@@ -65,7 +65,7 @@ const Nav = () => {
 
                         <div className='flex items-center justify-center gap-2 md:gap-3 '>
                              <img src={logo}
-                                alt="FoodExp-Logo"
+                                alt="sportclub-Logo"
                                 className='w-[30px] md:w-[70px]' />
                            <Link to="/">
                             <h3 className='font-bold text-[16px] md:text-2xl text-black'>FoodExp.</h3>
