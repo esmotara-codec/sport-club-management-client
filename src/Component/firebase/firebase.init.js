@@ -6,15 +6,14 @@ import { getAuth } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyA1mtg-2hbeSpaRXzUSExMrPFs-KWJ-Mu4",
-  authDomain: "sport-club-management-70a7c.firebaseapp.com",
-  projectId: "sport-club-management-70a7c",
-  storageBucket: "sport-club-management-70a7c.firebasestorage.app",
-  messagingSenderId: "1030477625658",
-  appId: "1:1030477625658:web:6068c1028a31249623b803"
+  apiKey: import.meta.env.VITE_apiKey,
+  authDomain: import.meta.env.VITE_authDomain,
+  projectId: import.meta.env.VITE_projectId,
+  storageBucket: import.meta.env.VITE_storageBucket,
+  messagingSenderId: import.meta.env.VITE_messagingSenderId,
+  appId: import.meta.env.VITE_appId,
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
-
