@@ -76,7 +76,7 @@ const Nav = () => {
                        { !user ? (
                         <div className='flex gap-2'>
                              <Link to="/login">
-                            <button className='bg-[#108ac2] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0e7aa8] transition-colors'>
+                            <button className='bg-[#108ac2] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0e7aa8] transition-colors cursor-pointer'>
                                 Login
                             </button>
                         </Link>
