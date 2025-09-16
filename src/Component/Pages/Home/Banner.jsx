@@ -89,11 +89,11 @@ const Banner = () => {
 
                         <div className="absolute inset-0 bg-black/70"></div>
                         <div className=" z-10 p-8 rounded-lg max-w-4xl mx-4">
-                            <h1 className="text-2xl md:text-5xl font-bold mb-4 text-[#24ab63]">{banner.title}</h1>
-                            <p className="text-sm md:text-xl mb-8 max-w-3xl text-[#24ab63]">{banner.subtitle}</p>
+                            <h1 className="text-2xl md:text-5xl font-bold mb-4 text-white">{banner.title}</h1>
+                            <p className="text-sm md:text-xl mb-8 max-w-3xl text-white">{banner.subtitle}</p>
                             <button
                                 onClick={() => handleButtonClick(banner.link)}
-                                className="bg-[#24ab63] hover:bg-green-800 px-3 md:px-8 py-3 rounded-full text-white font-medium transition-colors text-sm md:text-lg"
+                                className="bg-white text-[#108ac2] hover:bg-[#108ac2] hover:text-white px-3 md:px-8 py-3 rounded-full font-bold transition-colors text-sm md:text-lg"
                             >
                                 {banner.buttonText}
                             </button>
