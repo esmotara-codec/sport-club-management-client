@@ -18,11 +18,7 @@ import {
 const Footer = () => {
   const quickLinks = [
     { name: 'Home', href: '/' },
-    { name: 'About Us', href: '/about' },
-    { name: 'Sports Programs', href: '/programs' },
-    { name: 'Membership', href: '/membership' },
-    { name: 'Events', href: '/events' },
-    { name: 'Contact', href: '/contact' }
+    { name: 'Courts', href: '/contact' },
   ];
 
   const services = [
@@ -33,8 +29,6 @@ const Footer = () => {
     { name: 'Facility Booking', href: '/booking' },
     { name: 'Nutritional Guidance', href: '/nutrition' }
   ];
-
-  const sports = [];
 
   const socialLinks = [
     { name: 'Facebook', icon: <Facebook className="w-5 h-5" />, href: '#' },
@@ -55,7 +49,7 @@ const Footer = () => {
       <div className="relative z-10">
         {/* Main Footer Content */}
         <div className="container mx-auto px-4 py-12">
-          <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-8">
+          <div className="grid lg:grid-cols-5 md:grid-cols-2 gap-8">
             
             {/* Company Info */}
             <div className="space-y-6">
@@ -73,6 +67,8 @@ const Footer = () => {
                 Empowering athletes and sports enthusiasts through world-class facilities, 
                 expert coaching, and a vibrant community.
               </p>
+
+              {/* Contact Information */}
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
                   <MapPin className="w-5 h-5 text-[#108ac2]" />
@@ -97,7 +93,7 @@ const Footer = () => {
             </div>
 
             {/* Quick Links */}
-            {/* <div className="space-y-6">
+            <div className="space-y-6">
               <h4 className="text-xl font-bold text-white border-b-2 border-[#108ac2] pb-3 inline-block">
                 Quick Links
               </h4>
@@ -114,7 +110,7 @@ const Footer = () => {
                   </li>
                 ))}
               </ul>
-            </div> */}
+            </div>
 
             {/* Services */}
             <div className="space-y-6">
@@ -136,35 +132,76 @@ const Footer = () => {
               </ul>
             </div>
 
-            {/* Contact Info */}
-            {/* <div className="space-y-6">
+            {/* Legal */}
+            <div className="space-y-6">
               <h4 className="text-xl font-bold text-white border-b-2 border-[#108ac2] pb-3 inline-block">
-                Contact Us
+                Legal
               </h4>
-              
-              
-            </div> */}
-         
-        
+              <ul className="space-y-3">
+                <li>
+                  <a 
+                    href="#"
+                    className="flex items-center gap-2 text-gray-300 hover:text-[#108ac2] transition-colors duration-300 group"
+                  >
+                    <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                    Privacy Policy
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="#"
+                    className="flex items-center gap-2 text-gray-300 hover:text-[#108ac2] transition-colors duration-300 group"
+                  >
+                    <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                    Terms of Service
+                  </a>
+                </li>
+              </ul>
+            </div>
 
-        {/* Newsletter Section */}
-        <div className="flex flex-col ">
-              <div>
-                <h3 className="text-lg font-bold text-white mb-1">Stay Updated</h3>
-               </div>
-              <div className="flex flex-row gap-3 w-full md:w-auto">
-                  {/* <p className="text-gray-400 text-sm">Subscribe for latest updates</p> */}
-                <input 
-                  type="email" 
-                  placeholder="Enter your email"
-                  className="flex-1 md:w-64 px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-[#108ac2] transition-colors"
-                />
-                <button className="bg-gradient-to-r from-[#108ac2] to-[#0d6fa0] text-white px-4 py-2 rounded-lg font-medium hover:shadow-lg transition-all">
-                  Subscribe
-                </button>
+         
+
+        {/* Newsletter & Social Section */}
+        <div className="">
+          <div className="">
+            <div className="flex flex-col">
+              
+              {/* Newsletter */}
+              <div className="space-y-4">
+                <h4 className="text-xl font-bold text-white">Stay Updated</h4>
+                <div className="flex gap-2">
+                  <input 
+                    type="email" 
+                    placeholder="Enter your email"
+                    className="flex-1 px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-[#108ac2] transition-colors"
+                  />
+                  <button className="bg-gradient-to-r from-[#108ac2] to-[#0d6fa0] text-white px-6 py-2 rounded-lg font-medium hover:shadow-lg transition-all">
+                    Subscribe
+                  </button>
+                </div>
+              </div>
+
+              {/* Social Media */}
+              <div className="space-y-6">
+                <h4 className="text-xl font-bold text-white">Follow Us</h4>
+                <div className="flex gap-3">
+                  {socialLinks.map((social, index) => (
+                    <a
+                      key={index}
+                      href={social.href}
+                      className="bg-white/10 p-3 rounded-lg hover:bg-[#108ac2] transition-all duration-300 hover:scale-105"
+                      aria-label={social.name}
+                    >
+                      {social.icon}
+                    </a>
+                  ))}
+                </div>
+              </div>
               
             </div>
           </div>
+        </div>
+
          </div>
         </div>
 
@@ -176,31 +213,13 @@ const Footer = () => {
                 <p className="text-gray-400 text-sm">
                   © 2024 SportClub. All rights reserved.
                 </p>
-                <div className="flex items-center gap-4">
-                  <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors duration-300">Privacy Policy</a>
-                  <span className="text-gray-600">|</span>
-                  <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors duration-300">Terms of Service</a>
-                </div>
               </div>
 
               <div className="flex items-center gap-4">
-                {socialLinks.map((social, index) => (
-                  <a
-                    key={index}
-                    href={social.href}
-                    className="bg-white/10 p-3 rounded-xl hover:bg-[#108ac2] transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-[#108ac2]/25"
-                    aria-label={social.name}
-                  >
-                    {social.icon}
-                  </a>
-                ))}
+                <p className="text-gray-400 text-sm flex items-center gap-2">
+                  Made with <Heart className="w-4 h-4 text-red-500 animate-pulse" /> for sports enthusiasts worldwide
+                </p>
               </div>
-            </div>
-
-            <div className="text-center mt-4 pt-4 border-t border-white/5">
-              <p className="text-gray-400 text-sm flex items-center justify-center gap-2">
-                Made with <Heart className="w-4 h-4 text-red-500 animate-pulse" /> for sports enthusiasts worldwide
-              </p>
             </div>
           </div>
         </div>
