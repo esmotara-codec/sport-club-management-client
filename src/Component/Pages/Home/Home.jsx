@@ -2,6 +2,7 @@ import React from 'react';
 import Nav from '../../shared/Navbar/Nav';
 import Banner from './Banner';
 import AboutMissionSection from './AboutMissionSection';
+import Footer from './Footer';
 
 const Home = () => {
     return (
@@ -9,6 +10,7 @@ const Home = () => {
             <Nav/>
             <Banner/>
             <AboutMissionSection/>
+            <Footer/>
         </div>
     );
 };
