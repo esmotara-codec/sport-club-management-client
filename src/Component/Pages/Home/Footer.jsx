@@ -25,7 +25,6 @@ const Footer = () => {
     { name: 'Personal Training', href: '/personal-training' },
     { name: 'Group Classes', href: '/group-classes' },
     { name: 'Sports Coaching', href: '/coaching' },
-    { name: 'Equipment Rental', href: '/equipment' },
     { name: 'Facility Booking', href: '/booking' },
     { name: 'Nutritional Guidance', href: '/nutrition' }
   ];
