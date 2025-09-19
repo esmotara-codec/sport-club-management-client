@@ -4,6 +4,11 @@ import Home from "../Pages/Home/Home";
 import Login from "../Pages/Home/Login/Login";
 import SignUp from "../Pages/Signup/SignUp";
 import ErrorElement from "../Pages/ErrorPage/ErrorElement";
+import AdminDashBoard from "../Pages/DashBoard/Admin Dashboard/AdminDashBoard";
+import UserDashboard from "../Pages/DashBoard/USerDashBoard/UserDashboard";
+import MemberDashboard from "../Pages/DashBoard/MemberDashboard/MemberDashboard";
+import DashboardLayout from "../layout/DashboardLayout/DashBoardLayout";
+import { DashboardHome } from "../Pages/DashBoard/DashboardHome";
 
 const routes = createBrowserRouter([
   {
@@ -25,6 +30,34 @@ const routes = createBrowserRouter([
       }
     ]
   },
+   {
+        path: "dashboard",
+        element: <DashboardLayout/>,
+        children: [       
+    {
+        index:true,
+        element: <DashboardHome/>
+        
+    },
+    {
+        path: "admin",
+        element: <AdminDashBoard/>,
+        
+    },
+    {
+        path: "user",
+        element: <UserDashboard/>,
+        
+    },
+    {
+        path: "member",
+        element: <MemberDashboard/>,
+        
+    },
+     
+    
+    ]    
+    },
 ]);
 
 export default routes;
