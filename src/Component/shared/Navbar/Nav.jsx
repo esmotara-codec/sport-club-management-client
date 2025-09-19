@@ -40,7 +40,7 @@ const Nav = () => {
     }
    
     return (
-        <div className='bg-white text-[#108ac2] relative shadow-md'>
+        <div className='bg-white text-primary relative shadow-md'>
             <Container>
                 <nav className='flex items-center justify-between py-2'>
                     {/* Left Section: Mobile Menu + Logo */}
@@ -48,8 +48,8 @@ const Nav = () => {
                         {/* Mobile Menu Toggle */}
                         <div className='lg:hidden' onClick={() => setMenuOpen(!menuOpen)}>
                             {menuOpen ? 
-                                <X className='text-[#108ac2] cursor-pointer' size={24} /> :
-                                <Menu className='text-[#108ac2] cursor-pointer' size={24} />
+                                <X className='text-primary cursor-pointer' size={24} /> :
+                                <Menu className='text-primary cursor-pointer' size={24} />
                             }
                         </div>
 
@@ -76,12 +76,12 @@ const Nav = () => {
                        { !user ? (
                         <div className='flex gap-2'>
                              <Link to="/login">
-                            <button className='bg-[#108ac2] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0e7aa8] transition-colors cursor-pointer'>
+                            <button className='bg-primary text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0e7aa8] transition-colors cursor-pointer'>
                                 Login
                             </button>
                         </Link>
                         <Link to="/sign-up">
-                            <button className='bg-[#108ac2] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0e7aa8] transition-colors'>
+                            <button className='bg-primary text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0e7aa8] transition-colors'>
                                 Sign Up
                             </button>
                         </Link>
@@ -118,7 +118,7 @@ const Nav = () => {
                                                         setShowDropdown(false);
                                                         handleSignOut();
                                                     }}
-                                                    className='w-full btn border border-none bg-[#108ac2] text-white text-sm py-2 px-3 rounded-lg  transition-colors'
+                                                    className='w-full btn border border-none bg-primary text-white text-sm py-2 px-3 rounded-lg  transition-colors'
                                                 >
                                                     Logout
                                                 </button>
@@ -132,7 +132,7 @@ const Nav = () => {
                     </div>
 
                     {/* Mobile Navigation Menu */}
-                    <ul className={`lg:hidden absolute top-full left-0 right-0 bg-[#108ac2] text-white font-semibold shadow-lg z-50 transition-all duration-300 ${
+                    <ul className={`lg:hidden absolute top-full left-0 right-0 bg-primary text-white font-semibold shadow-lg z-50 transition-all duration-300 ${
                         menuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
                     }`}>
                         <div className='pt-4 '>
@@ -140,7 +140,7 @@ const Nav = () => {
                         </div>
                         <div className='p-1 py-2'>
                              <Link to="/login">
-                            <button className='bg-[#108ac2] text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-[#0e7aa8] transition-colors'>
+                            <button className='bg-primary text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-[#0e7aa8] transition-colors'>
                                 Login
                             </button>
                         </Link>
