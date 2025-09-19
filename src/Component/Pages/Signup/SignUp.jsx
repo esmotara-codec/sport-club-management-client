@@ -182,7 +182,7 @@ function SignUp() {
           <div className="flex justify-center">
             <button
               type="submit"
-              className=" btn w-full my-2 bg-primary  text-white py-2 rounded hover:bg-blue-700 border border-cyan-500"
+              className=" btn w-full my-2 bg-primary  text-white py-2 rounded hover:bg-primary-hover  border border-cyan-500"
             >
               Sign Up
             </button>
