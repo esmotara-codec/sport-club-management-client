@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { createUserWithEmailAndPassword,  onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut} from "firebase/auth";
 import { AuthContext } from "./AuthContext";
 import { auth } from "../firebase/firebase.init";
+import useAxiosPublic from "../hook/axiosPublic";
 
 const AuthProvider = ({ children }) => {
     const [user , setUser ] = useState(null);
@@ -32,17 +33,17 @@ const AuthProvider = ({ children }) => {
     useEffect(() => {
         const unSubscribe =onAuthStateChanged(auth , currentUser => {
             // console.log('Current User inside useEffect on auth state change ', currentUser);
-            setUser(currentUser);
+              if (currentUser) {
+                useAxiosPublic.post('/add-user', {
+                    email: currentUser.email,
+                    role: "user",
+                    loginCount: 1,
+                }).then((res) => {
+                    setUser(currentUser);
+                    console.log(res.data);
+                });
+            }
             setLoading(false);
-            // if(currentUser?.email){
-            //     const userData = {email: currentUser.email};
-            //     axios.post('https://food-expiry-server-lime.vercel.app/jwt', userData)
-            //     .then(res =>{
-            //         console.log(res.data)
-            //     })
-            //     .catch(error => console.log(error));                
-
-            // }
         })
         return () => {
             unSubscribe();
