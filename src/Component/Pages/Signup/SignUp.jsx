@@ -1,87 +1,123 @@
 import { useContext, useState } from "react";
-import { Link, useNavigate, } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { Eye, EyeOff } from "lucide-react";
 import { AuthContext } from "../../Context/AuthContext";
-
+import axios from "axios";
 
 function SignUp() {
   const navigate = useNavigate();
-  const { createUser} = useContext(AuthContext);
+  const { createUser } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Create axios instance directly in component
+  const axiosPublic = axios.create({
+    baseURL: 'http://localhost:5000', // Replace with your backend URL
+  });
     
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // const email = e.target.email.value;
-    // const password = e.target.password.value;
-    // console.log(email, password);
+    
     const form = e.target;
     const formData = new FormData(form);
     const { email, password, ...rest } = Object.fromEntries(formData.entries());
-    // const email = formData.get('email');
-    // const password = formData.get('password');
 
-
+    // Password validation
     const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
-    if (passwordRegex.test(password) === false) {
+    if (!passwordRegex.test(password)) {
       Swal.fire({
         position: "center",
         icon: "error",
         title: "Password must be at least 6 characters long, contain at least one uppercase letter, one lowercase letter, and one number.",
         showConfirmButton: true,
         confirmButtonText: "OK",
-
       });
       return;
     }
 
+    try {
+      setIsLoading(true);
+      
+      // Create User with Firebase
+      console.log("Creating user with Firebase...");
+      const result = await createUser(email, password);
+      console.log("Firebase user created:", result.user);
 
-    //Create User
-    createUser(email, password)
-      .then(result => {
-        console.log(result.user);
 
-        const userProfile = {
-          email,
-          ...rest,
-          creationTime: result.user?.metadata?.creationTime,
-          lastSignInTime: result.user?.metadata?.lastSignInTime
-        }
-        console.log(email, password, userProfile);
+      const userProfile = {
+        email,
+        ...rest,
+        role: "user",
+        
+        creationTime: result.user?.metadata?.creationTime,
+        lastSignInTime: result.user?.metadata?.lastSignInTime
+      };
 
-        //save profile info in the db
-        fetch('', {
-          method: 'POST',
-          headers: {
-            'content-type': 'application/json'
-          },
-          body: JSON.stringify(userProfile)
-        })
-          .then(res => res.json())
-          .then(data => {
-            if (data.insertedId) {
-              console.log('After data added to db');
-              Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "Your account has been created successfully",
-                showConfirmButton: false,
-                timer: 1500
-              });
-              navigate("/login");
-            }
-          })
-      })
-      .catch(error => {
-        console.log(error);
+      console.log("User profile to save:", userProfile);
+
+      // Save profile info in the db
+      console.log("Saving to database...");
+      const res = await axiosPublic.post('/add-user', userProfile);
+      console.log("Database response:", res);
+      console.log("Database response data:", res.data);
+      
+      // Check for successful insertion or existing user
+      if (res.data.insertedId) {
+        console.log('User successfully processed in database');
+        setIsLoading(false);
+        
+        Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Your account has been created successfully",
+            showConfirmButton: false,
+            timer: 1500
+        });
+        navigate("/login");
+
+      } else if (res.data.msg === "user already exist") {
+        console.log('User successfully processed in database');
+        setIsLoading(false);
+        
         Swal.fire({
           position: "center",
-          icon: "error",
-          title: "Signup Failed",
-          text: error.message,
+          icon: "warning",
+          title: "Account already exists",
+          text: "Please login with your existing account",
+          showConfirmButton: true,
+          confirmButtonText: "Go to Login"
         });
-      });
+        navigate("/login");
+      }
+      else {
+        throw new Error("Unexpected response from server");
+      }
+      
+    } catch (error) {
+      console.error("Full error object:", error);
+      console.error("Error message:", error.message);
+      console.error("Error response:", error.response);
+      
+      setIsLoading(false);
+      
+      let title = "Signup Failed";
+      let text = "An error occurred during signup. Please try again.";
 
+      if (error.code === 'auth/email-already-in-use') {
+        title = "Account already exists";
+        text = "Please login with your existing account";
+      }
+
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: title,
+        text: text,
+        showConfirmButton: true,
+        confirmButtonText: "OK"
+      });
+    }
   };
 
   return (
@@ -100,14 +136,13 @@ function SignUp() {
               </label>
               <input
                 type="text"
+                id="name"
                 name="name"
                 required
-                className="w-full mt-2 px-4 py-2 border border-gray-400 bg-white text-black rounded focus:outline-none focus:ring-2 focus:ring-primtext-primary"
+                className="w-full mt-2 px-4 py-2 border border-gray-400 bg-white text-black rounded focus:outline-none focus:ring-2 focus:ring-primary"
                 placeholder="Enter your name"
               />
             </div>
-
-
 
             {/* Email Address Field */}
             <div className="mb-4">
@@ -119,27 +154,10 @@ function SignUp() {
                 id="email"
                 name="email"
                 required
-                className="w-full mt-2 px-4 py-2 border border-gray-400 bg-white text-black rounded focus:outline-none focus:ring-2 focus:ring-primtext-primary"
+                className="w-full mt-2 px-4 py-2 border border-gray-400 bg-white text-black rounded focus:outline-none focus:ring-2 focus:ring-primary"
                 placeholder="Enter your email address"
               />
             </div>
-
-
-
-            {/* Photo URL  */}
-            {/* <div className="mb-4">
-              <label htmlFor="photo" className="block text-gray-700">
-                Photo URL
-              </label>
-              <input
-                type="url"
-                id="photo"
-                name="photo"
-                required
-                className="w-full mt-2 px-4 py-2 border border-gray-400 bg-white text-black rounded focus:outline-none focus:ring-2 focus:ring-primtext-primary"
-                placeholder="Enter your photo URL"
-              />
-            </div> */}
 
             {/* Password */}
             <div className="mb-4">
@@ -149,30 +167,25 @@ function SignUp() {
               <div className="relative">
                 <input
                   type={showPassword ? 'text' : 'password'}
-                  name='password'
+                  id="password"
+                  name="password"
                   required
-                  className="w-full mt-2 px-4 py-2 border border-gray-400 bg-white text-black rounded focus:outline-none focus:ring-2 focus:ring-primtext-primary"
+                  className="w-full mt-2 px-4 py-2 border border-gray-400 bg-white text-black rounded focus:outline-none focus:ring-2 focus:ring-primary"
                   placeholder="Enter your password"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-2 top-4 text-primary "
+                  className="absolute right-2 top-4 text-primary"
                 >
-                  {
-                    showPassword ?   <Eye /> :  <EyeOff />
-                  }
+                  {showPassword ? <Eye /> : <EyeOff />}
                 </button>
-
-
               </div>
             </div>
-
-
           </div>
 
-          <p className="text-xs  text-black mb-4">
-            By creating an account you agree to our {" "}
+          <p className="text-xs text-black mb-4">
+            By creating an account you agree to our{" "}
             <Link to="#" className="text-cyan-600">
               Terms & Conditions
             </Link>
@@ -182,9 +195,10 @@ function SignUp() {
           <div className="flex justify-center">
             <button
               type="submit"
-              className=" btn w-full my-2 bg-primary  text-white py-2 rounded hover:bg-primary-hover  border border-cyan-500"
+              disabled={isLoading}
+              className="btn w-full my-2 bg-primary text-white py-2 rounded hover:bg-primary-hover border border-cyan-500 disabled:opacity-50"
             >
-              Sign Up
+              {isLoading ? "Creating Account..." : "Sign Up"}
             </button>
           </div>
         </form>

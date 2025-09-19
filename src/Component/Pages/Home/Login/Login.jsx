@@ -2,7 +2,7 @@
 import { useLocation, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import Lottie from "lottie-react";
-import loginAnimation from "./../../../../assets/Animation - 1734782439866.json";
+import loginAnimation from './../../../../../public/Animation - 1734782439866.json';
 import { useContext } from "react";
 import { AuthContext } from "../../../Context/AuthContext";
 
