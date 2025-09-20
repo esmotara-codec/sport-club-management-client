@@ -14,7 +14,7 @@ if (loading) {
   
 }
 
-if(role === "Admin") 
+if(role === "admin") 
   return <Navigate to ="/dashboard/admin" />
 
   if(role === "user")
