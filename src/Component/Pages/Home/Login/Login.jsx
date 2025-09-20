@@ -5,10 +5,14 @@ import Lottie from "lottie-react";
 import loginAnimation from './../../../../../public/Animation - 1734782439866.json';
 import { useContext } from "react";
 import { AuthContext } from "../../../Context/AuthContext";
+import useAxiosPublic from "../../../hook/axiosPublic";
+import { GoogleAuthProvider } from "firebase/auth";
 
 const Login = () => {
+  const provider = new GoogleAuthProvider();
   const navigate = useNavigate();
-  const { loginWithPassword } = useContext(AuthContext);
+  const { loginWithPassword , signInWithGoogle} = useContext(AuthContext);
+  const axiosPublic= useAxiosPublic();
   const location = useLocation();
   console.log(location);
 
@@ -38,45 +42,47 @@ const Login = () => {
   };
 
   // Handle Google Sign In
-  // const handleGoogleSignIn = () => {
-  //   signInWithGoogle(provider)
-  //     .then((result) => {
-  //       console.log("google sign in : ", result.user);
+  const handleGoogleSignIn = () => {
+    signInWithGoogle(provider)
+      .then((result) => {
+        console.log("google sign in : ", result.user);
        
 
-  //       const userProfile = {
-  //         name: result.user.displayName,
-  //         email: result.user.email,
-  //         photo: result.user.photoURL,
-  //         creationTime: result.user?.metadata?.creationTime,
-  //         lastSignInTime: result.user?.metadata?.lastSignInTime,
-  //       };
+        const userProfile = {
+          name: result.user.displayName,
+          email: result.user.email,
+          photo: result.user.photoURL,
+          role: "user",
+          loginCount: 1,
+          creationTime: result.user?.metadata?.creationTime,
+          lastSignInTime: result.user?.metadata?.lastSignInTime,
+        };
 
-  //       //save profile info in the db
-  //       axios.post("/add-user", userProfile).then((res) => {
-  //         if (res.insertedId) {
-  //           console.log("After google data added to db", res);
-  //           Swal.fire({
-  //             position: "center",
-  //             icon: "success",
-  //             title: "Sign Up successfully",
-  //             showConfirmButton: false,
-  //             timer: 1500,
-  //           });
-  //           navigate(location?.state || "/");
-  //         }
-  //       });
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //       Swal.fire({
-  //         position: "center",
-  //         icon: "error",
-  //         title: "Google Sign In Failed",
-  //         text: error.message,
-  //       });
-  //     });
-  // };
+        //save profile info in the db
+        axiosPublic.post("/add-user", userProfile).then((res) => {
+          if (res.insertedId) {
+            console.log("After google data added to db", res);
+            Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "Sign Up successfully",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            navigate(location?.state || "/");
+          }
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Google Sign In Failed",
+          text: error.message,
+        });
+      });
+  };
 
   return (
     <div className="flex justify-center items-center  min-h-screen bg-primary p-4">
@@ -128,14 +134,14 @@ const Login = () => {
             </div>
           </form>
           {/* Google Sign In */}
-          {/* <div className="mt-4 sm:mt-6 text-center">
+          <div className="mt-4 sm:mt-6 text-center">
             <button
               onClick={handleGoogleSignIn}
-              className="btn w-full px-3 sm:px-4 py-2 bg-red-700 text-white hover:bg-red-800  rounded-md transition duration-300 text-sm sm:text-base"
+              className="btn w-full px-3 sm:px-4 py-2 bg-gray-300 text-gray-800 hover:bg-gray-700 hover:text-white rounded-md transition duration-300 text-sm sm:text-base"
             >
-              Sign in with Google
+              Login with Google
             </button>
-          </div> */}
+          </div>
 
           <div className="text-center mt-3 sm:mt-4">
             <span className="text-gray-700 text-sm sm:text-base">Not registered yet? </span>

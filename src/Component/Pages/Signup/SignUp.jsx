@@ -3,19 +3,16 @@ import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { Eye, EyeOff } from "lucide-react";
 import { AuthContext } from "../../Context/AuthContext";
-import axios from "axios";
+import useAxiosPublic from "../../hook/axiosPublic";
 
 function SignUp() {
   const navigate = useNavigate();
-  const { createUser } = useContext(AuthContext);
+  const { createUser , signOutUser} = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const axiosPublic = useAxiosPublic();
 
-  // Create axios instance directly in component
-  const axiosPublic = axios.create({
-    baseURL: 'http://localhost:5000', // Replace with your backend URL
-  });
-    
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -49,7 +46,6 @@ function SignUp() {
         email,
         ...rest,
         role: "user",
-        
         creationTime: result.user?.metadata?.creationTime,
         lastSignInTime: result.user?.metadata?.lastSignInTime
       };
@@ -66,6 +62,9 @@ function SignUp() {
       if (res.data.insertedId) {
         console.log('User successfully processed in database');
         setIsLoading(false);
+
+        await signOutUser();
+        
         
         Swal.fire({
             position: "center",

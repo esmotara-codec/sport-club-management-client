@@ -135,21 +135,7 @@ const Nav = () => {
                         </button>
                     </div>
 
-                    {/* <div className='text-sm text-gray-600  mb-2'>
-                                                    <strong>User Email:</strong>
-                                                </div>
-                                                <div className='text-sm text-gray-800 mb-3'>
-                                                    {user.email}
-                                                </div>
-                                                <button
-                                                    onClick={() => {
-                                                        setShowDropdown(false);
-                                                        handleSignOut();
-                                                    }}
-                                                    className='w-full btn border border-none bg-primary text-white text-sm py-2 px-3 rounded-lg  transition-colors'
-                                                >
-                                                    Logout
-                                                </button> */}
+                  
                   </div>
                 )}
               </div>
