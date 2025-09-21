@@ -79,10 +79,6 @@ function SignUp() {
         console.log("first log out");
 
         })
-
-
-        
-        
         
 
       } else if (res.data.msg === "user already exist") {
@@ -145,8 +141,8 @@ function SignUp() {
               </label>
               <input
                 type="text"
-                id="name"
-                name="name"
+                id="displayName"
+                name="displayName"
                 required
                 className="w-full mt-2 px-4 py-2 border border-gray-400 bg-white text-black rounded focus:outline-none focus:ring-2 focus:ring-primary"
                 placeholder="Enter your name"

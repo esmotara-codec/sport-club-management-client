@@ -23,7 +23,7 @@ const navigationData = [
 ];
 
 const Nav = () => {
-  const { user, loading, signOutUser ,} = useContext(AuthContext);
+  const { user, loading, signOutUser} = useContext(AuthContext);
   const [showDropdown, setShowDropdown] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const links = navigationData.map((route) => (
