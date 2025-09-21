@@ -4,6 +4,7 @@ import useRole from "../../hook/useRole";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../Context/AuthContext";
 import Loading from "../../shared/Loading/Loading";
+import Insight from "./Insight/insight";
 
 const adminSidebarItems = [
   { name: "Insights", path: "/dashboard/admin", icon: <LayoutDashboard className="size-5" />, category: "Overview" },
@@ -47,7 +48,7 @@ const Sidebar = () => {
   if (roleLoading || authLoading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-28 w-28 border-b-2 border-blue-600"></div>
       </div>
     );
   }
@@ -79,9 +80,9 @@ const Sidebar = () => {
     }
   };
 
-  const toggleSidebar = () => {
-    setSidebarCollapsed(!sidebarCollapsed);
-  };
+  // const toggleSidebar = () => {
+  //   setSidebarCollapsed(!sidebarCollapsed);
+  // };
 
   return (
     <div className="flex h-screen bg-gray-100">
@@ -157,7 +158,7 @@ const Sidebar = () => {
         {/* Page Content */}
         {/* <main className="flex-1 overflow-y-auto">
           {currentView === 'insights' ? (
-            <InsightsDashboard role={role} />
+            <Insight role={role} />
           ) : (
             <div className="p-8">
               <h1 className="text-3xl font-bold text-gray-800 mb-4">

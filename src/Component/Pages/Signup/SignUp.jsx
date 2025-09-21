@@ -3,11 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { Eye, EyeOff } from "lucide-react";
 import { AuthContext } from "../../Context/AuthContext";
-import useAxiosPublic from "../../hook/axiosPublic";
+import useAxiosPublic from "../../hook/useAxiosPublic";
 
 function SignUp() {
   const navigate = useNavigate();
-  const { createUser , signOutUser} = useContext(AuthContext);
+  const { createUser , signOutUser ,  setUser} = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const axiosPublic = useAxiosPublic();
@@ -15,11 +15,13 @@ function SignUp() {
   
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
+  
     const form = e.target;
     const formData = new FormData(form);
     const { email, password, ...rest } = Object.fromEntries(formData.entries());
-
+  
+    
     // Password validation
     const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
     if (!passwordRegex.test(password)) {
@@ -32,9 +34,9 @@ function SignUp() {
       });
       return;
     }
-
+  
     try {
-      setIsLoading(true);
+      // setIsLoading(true);
       
       // Create User with Firebase
       console.log("Creating user with Firebase...");
@@ -58,15 +60,15 @@ function SignUp() {
       console.log("Database response:", res);
       console.log("Database response data:", res.data);
       
+
       // Check for successful insertion or existing user
       if (res.data.insertedId) {
         console.log('User successfully processed in database');
         setIsLoading(false);
 
-        await signOutUser();
-        
-        
-        Swal.fire({
+        signOutUser().then(() => {
+           setUser(null);
+          Swal.fire({
             position: "center",
             icon: "success",
             title: "Your account has been created successfully",
@@ -74,6 +76,14 @@ function SignUp() {
             timer: 1500
         });
         navigate("/login");
+        console.log("first log out");
+
+        })
+
+
+        
+        
+        
 
       } else if (res.data.msg === "user already exist") {
         console.log('User successfully processed in database');

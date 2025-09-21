@@ -5,7 +5,7 @@ import Lottie from "lottie-react";
 import loginAnimation from './../../../../../public/Animation - 1734782439866.json';
 import { useContext } from "react";
 import { AuthContext } from "../../../Context/AuthContext";
-import useAxiosPublic from "../../../hook/axiosPublic";
+import useAxiosPublic from "../../../hook/useAxiosPublic";
 import { GoogleAuthProvider } from "firebase/auth";
 
 const Login = () => {
@@ -52,8 +52,6 @@ const Login = () => {
           name: result.user.displayName,
           email: result.user.email,
           photo: result.user.photoURL,
-          role: "user",
-          loginCount: 1,
           creationTime: result.user?.metadata?.creationTime,
           lastSignInTime: result.user?.metadata?.lastSignInTime,
         };
@@ -84,6 +82,7 @@ const Login = () => {
       });
   };
 
+  console.log("hello");
   return (
     <div className="flex justify-center items-center  min-h-screen bg-primary p-4">
       <div className="flex flex-col lg:flex-row  gap-4 sm:gap-8 lg:gap-16 w-full max-w-sm sm:max-w-md md:max-w-4xl lg:max-w-5xl bg-white rounded-lg shadow-lg overflow-hidden">

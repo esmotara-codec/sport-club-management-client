@@ -23,7 +23,7 @@ const navigationData = [
 ];
 
 const Nav = () => {
-  const { user, loading, signOutUser } = useContext(AuthContext);
+  const { user, loading, signOutUser ,} = useContext(AuthContext);
   const [showDropdown, setShowDropdown] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const links = navigationData.map((route) => (
@@ -117,7 +117,7 @@ const Nav = () => {
                   <div className="absolute top-10 right-0 bg-white border border-gray-200 rounded-lg shadow-lg p-4 w-[300px] z-10">
                     <div>
                       <strong className="text-lg text-gray-700">
-                        {user.email || user.displayName}
+                        { user.displayName  || user.email}
                       </strong>
                     </div>
                     <hr className="my-2" />

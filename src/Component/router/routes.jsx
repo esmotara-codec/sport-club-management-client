@@ -8,7 +8,7 @@ import UserDashboard from "../Pages/DashBoard/USerDashBoard/UserDashboard";
 import MemberDashboard from "../Pages/DashBoard/MemberDashboard/MemberDashboard";
 import DashboardLayout from "../layout/DashboardLayout/DashBoardLayout";
 import { DashboardHome } from "../Pages/DashBoard/DashboardHome";
-import { adminRoutes } from "./adminRoutes";
+
 
 const routes = createBrowserRouter([
   {
