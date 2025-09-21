@@ -82,7 +82,6 @@ const Login = () => {
       });
   };
 
-  console.log("hello");
   return (
     <div className="flex justify-center items-center  min-h-screen bg-primary p-4">
       <div className="flex flex-col lg:flex-row  gap-4 sm:gap-8 lg:gap-16 w-full max-w-sm sm:max-w-md md:max-w-4xl lg:max-w-5xl bg-white rounded-lg shadow-lg overflow-hidden">
