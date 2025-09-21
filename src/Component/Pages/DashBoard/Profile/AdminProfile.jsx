@@ -3,8 +3,8 @@ import React from 'react';
 const AdminProfile = () => {
     return (
         <div>
+            <h1>Admin Profile</h1>
             
-            <h2>Admin Profile</h2>
         </div>
     );
 };
