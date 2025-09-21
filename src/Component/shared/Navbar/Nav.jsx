@@ -44,7 +44,9 @@ const Nav = () => {
     signOutUser()
       .then(() => {
         console.log("Sign out successfully");
+
       })
+      
       .catch((error) => {
         console.log(error);
       });

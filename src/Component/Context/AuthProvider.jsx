@@ -20,12 +20,13 @@ const AuthProvider = ({ children }) => {
     }
 
     const  loginWithPassword =(email, password) => {
-        setLoading(true);
+        // setLoading(true);
         return signInWithEmailAndPassword(auth, email , password);
     }
 
    const signOutUser = () => {
-    //    setLoading(true);
+       setLoading(true);
+       setUser(null);
     return signOut(auth);
    }
 
@@ -33,7 +34,6 @@ const AuthProvider = ({ children }) => {
     useEffect(() => {
         const unSubscribe =onAuthStateChanged(auth , currentUser => {
             // console.log('Current User inside useEffect on auth state change ', currentUser);
-            signOut(auth);
               if (currentUser) {
                 axiosPublic.post('/add-user', {
                     email: currentUser.email,
