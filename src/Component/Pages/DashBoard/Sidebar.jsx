@@ -1,48 +1,70 @@
 import {  Bell, Calendar, ChevronRight, CreditCard, Crown, LayoutDashboard, Package, Target, Trophy, User, User2, UserRound, Users } from "lucide-react";
-import { Link } from "react-router-dom";
-import useRole from "../../hook/useRole";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../Context/AuthContext";
-import Loading from "../../shared/Loading/Loading";
-import Insight from "./Insight/insight";
+import useRole from "../../hook/useRole";
+
+// Import your separate components
+
+
+import DasboardTopNav from "../../layout/DashboardLayout/DasboardTopNav";
 
 const adminSidebarItems = [
-  { name: "Insights", path: "/dashboard/admin", icon: <LayoutDashboard className="size-5" />, category: "Overview" },
-  { name: "Manage Bookings", path: "/dashboard/manage-bookings", icon: <Calendar className="size-5" />, category: "Management" },
-  { name: "All Users", path: "/dashboard/manage-users", icon: <Users className="size-5" />, category: "Management" },
-  { name: "Manage Members", path: "/dashboard/manage-members", icon: <Crown className="size-5" />, category: "Management" },
-  { name: "Manage Courts", path: "/dashboard/manage-courts", icon: <Target className="size-5" />, category: "Management" },
-  { name: "Manage Coupons", path: "/dashboard/manage-coupons", icon: <Package className="size-5" />, category: "Management" },
-  { name: "Make Announcement", path: "/dashboard/make-announcement", icon: <Bell className="size-5" />, category: "Communication" },
-  { name: "Profile", path: "/dashboard/profile", icon: <User2 className="size-5" />, category: "Account" },
+  { name: "Insights", component: "Insights", icon: <LayoutDashboard className="size-5" />, category: "Overview" },
+  { name: "Manage Bookings", component: "ManageBookings", icon: <Calendar className="size-5" />, category: "Management" },
+  { name: "All Users", component: "AllUsers", icon: <Users className="size-5" />, category: "Management" },
+  { name: "Manage Members", component: "ManageMembers", icon: <Crown className="size-5" />, category: "Management" },
+  { name: "Manage Courts", component: "ManageCourts", icon: <Target className="size-5" />, category: "Management" },
+  { name: "Manage Coupons", component: "ManageCoupons", icon: <Package className="size-5" />, category: "Management" },
+  { name: "Make Announcement", component: "MakeAnnouncement", icon: <Bell className="size-5" />, category: "Communication" },
+  { name: "Profile", component: "Profile", icon: <User2 className="size-5" />, category: "Account" },
 ];
 
 const memberSidebarItems = [
-  { name: "Insights", path: "/dashboard/member", icon: <LayoutDashboard className="size-5" />, category: "Overview" },
-  { name: "My Bookings", path: "/dashboard/my-bookings", icon: <Calendar className="size-5" />, category: "Bookings" },
-  { name: "Pending Bookings", path: "/dashboard/pending-bookings", icon: <Package className="size-5" />, category: "Bookings" },
-  { name: "Approved Bookings", path: "/dashboard/approved-bookings", icon: <Package className="size-5" />, category: "Bookings" },
-  { name: "Confirmed Bookings", path: "/dashboard/confirmed-bookings", icon: <Package className="size-5" />, category: "Bookings" },
-  { name: "Payment History", path: "/dashboard/payment-history", icon: <CreditCard className="size-5" />, category: "Finance" },
-  { name: "Announcements", path: "/dashboard/announcements", icon: <Bell className="size-5" />, category: "Communication" },
-  { name: "Profile", path: "/dashboard/profile", icon: <User2 className="size-5" />, category: "Account" },
+  { name: "Insights", component: "Insights", icon: <LayoutDashboard className="size-5" />, category: "Overview" },
+  { name: "My Bookings", component: "MyBookings", icon: <Calendar className="size-5" />, category: "Bookings" },
+  { name: "Pending Bookings", component: "PendingBookings", icon: <Package className="size-5" />, category: "Bookings" },
+  { name: "Approved Bookings", component: "ApprovedBookings", icon: <Package className="size-5" />, category: "Bookings" },
+  { name: "Confirmed Bookings", component: "ConfirmedBookings", icon: <Package className="size-5" />, category: "Bookings" },
+  { name: "Payment History", component: "PaymentHistory", icon: <CreditCard className="size-5" />, category: "Finance" },
+  { name: "Announcements", component: "Announcements", icon: <Bell className="size-5" />, category: "Communication" },
+  { name: "Profile", component: "Profile", icon: <User2 className="size-5" />, category: "Account" },
 ];
 
 const userSidebarItems = [
-  { name: "Insights", path: "/dashboard/user", icon: <LayoutDashboard className="size-5" />, category: "Overview" },
-  { name: "My Bookings", path: "/dashboard/my-bookings", icon: <Calendar className="size-5" />, category: "Bookings" },
-  { name: "Pending Bookings", path: "/dashboard/pending-bookings", icon: <Package className="size-5" />, category: "Bookings" },
-  { name: "Announcements", path: "/dashboard/announcements", icon: <Bell className="size-5" />, category: "Communication" },
-  { name: "Become a Member", path: "/dashboard/become-member", icon: <UserRound className="size-5" />, category: "Upgrade" },
-  { name: "Profile", path: "/dashboard/profile", icon: <User2 className="size-5" />, category: "Account" },
+  { name: "Insights", component: "Insights", icon: <LayoutDashboard className="size-5" />, category: "Overview" },
+  { name: "My Bookings", component: "MyBookings", icon: <Calendar className="size-5" />, category: "Bookings" },
+  { name: "Pending Bookings", component: "PendingBookings", icon: <Package className="size-5" />, category: "Bookings" },
+  { name: "Announcements", component: "Announcements", icon: <Bell className="size-5" />, category: "Communication" },
+  { name: "Become a Member", component: "BecomeMember", icon: <UserRound className="size-5" />, category: "Upgrade" },
+  { name: "Profile", component: "Profile", icon: <User2 className="size-5" />, category: "Account" },
 ];
+
+// Component mapping - maps component names to actual components
+const ComponentMap = {
+  Insights: Insight,
+  ManageBookings: ManageBookings,
+  AllUsers: AllUsers,
+  ManageMembers: ManageMembers,
+  ManageCourts: ManageCourts,
+  ManageCoupons: ManageCoupons,
+  MakeAnnouncement: MakeAnnouncement,
+  MyBookings: MyBookings,
+  PendingBookings: PendingBookings,
+  ApprovedBookings: ApprovedBookings,
+  ConfirmedBookings: ConfirmedBookings,
+  PaymentHistory: PaymentHistory,
+  Announcements: Announcements,
+  BecomeMember: BecomeMember,
+  Profile: Profile,
+};
+
+
 
 // Main Sidebar Component
 const Sidebar = () => {
   const { role, loading: roleLoading } = useRole();
   const { loading: authLoading } = useContext(AuthContext);
-  const [activeItem, setActiveItem] = useState('/dashboard/admin');
-  const [currentView, setCurrentView] = useState('insights');
+  const [activeComponent, setActiveComponent] = useState('Insights');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   if (roleLoading || authLoading) {
@@ -71,18 +93,16 @@ const Sidebar = () => {
     return acc;
   }, {});
 
-  const handleNavClick = (path, itemName) => {
-    setActiveItem(path);
-    if (itemName === 'Insights') {
-      setCurrentView('insights');
-    } else {
-      setCurrentView('other');
-    }
+  const handleNavClick = (componentName) => {
+    setActiveComponent(componentName);
   };
 
-  // const toggleSidebar = () => {
-  //   setSidebarCollapsed(!sidebarCollapsed);
-  // };
+  const toggleSidebar = () => {
+    setSidebarCollapsed(!sidebarCollapsed);
+  };
+
+  // Get the active component to render
+  const ActiveComponent = ComponentMap[activeComponent];
 
   return (
     <div className="flex h-screen bg-gray-100">
@@ -122,21 +142,21 @@ const Sidebar = () => {
                 <div className="space-y-1">
                   {items.map((item) => (
                     <button
-                      key={item.path}
-                      onClick={() => handleNavClick(item.path, item.name)}
+                      key={item.component}
+                      onClick={() => handleNavClick(item.component)}
                       className={`w-full text-left px-4 py-3 rounded-xl transition-all duration-200 flex items-center ${sidebarCollapsed ? 'justify-center' : 'space-x-3'} group ${
-                        activeItem === item.path
+                        activeComponent === item.component
                           ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-500/25'
                           : 'text-slate-300 hover:bg-slate-700/50 hover:text-white'
                       }`}
                     >
-                      <div className={`${activeItem === item.path ? 'text-blue-100' : 'text-slate-400 group-hover:text-blue-400'}`}>
+                      <div className={`${activeComponent === item.component ? 'text-blue-100' : 'text-slate-400 group-hover:text-blue-400'}`}>
                         {item.icon}
                       </div>
                       {!sidebarCollapsed && (
                         <>
                           <span className="font-medium">{item.name}</span>
-                          {activeItem === item.path && (
+                          {activeComponent === item.component && (
                             <ChevronRight className="size-4 ml-auto text-blue-200" />
                           )}
                         </>
@@ -153,23 +173,12 @@ const Sidebar = () => {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col">
         {/* Top Navigation */}
-        {/* <TopNavigation role={role} onSidebarToggle={toggleSidebar} /> */}
+        <DasboardTopNav role={role} onSidebarToggle={toggleSidebar} />
 
-        {/* Page Content */}
-        {/* <main className="flex-1 overflow-y-auto">
-          {currentView === 'insights' ? (
-            <Insight role={role} />
-          ) : (
-            <div className="p-8">
-              <h1 className="text-3xl font-bold text-gray-800 mb-4">
-                {SidebarItems.find(item => item.path === activeItem)?.name || 'Dashboard'}
-              </h1>
-              <div className="bg-white rounded-xl shadow-lg p-8">
-                <p className="text-gray-600">Content for the selected menu item will be displayed here.</p>
-              </div>
-            </div>
-          )}
-        </main> */}
+        {/* Page Content - Renders the selected component */}
+        <main className="flex-1 overflow-y-auto">
+          {ActiveComponent && <ActiveComponent role={role} />}
+        </main>
       </div>
     </div>
   );

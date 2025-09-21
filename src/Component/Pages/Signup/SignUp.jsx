@@ -141,8 +141,8 @@ function SignUp() {
               </label>
               <input
                 type="text"
-                id="displayName"
-                name="displayName"
+                id="name"
+                name="name"
                 required
                 className="w-full mt-2 px-4 py-2 border border-gray-400 bg-white text-black rounded focus:outline-none focus:ring-2 focus:ring-primary"
                 placeholder="Enter your name"

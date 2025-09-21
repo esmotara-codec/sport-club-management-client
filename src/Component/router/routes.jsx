@@ -8,6 +8,7 @@ import UserDashboard from "../Pages/DashBoard/USerDashBoard/UserDashboard";
 import MemberDashboard from "../Pages/DashBoard/MemberDashboard/MemberDashboard";
 import DashboardLayout from "../layout/DashboardLayout/DashBoardLayout";
 import { DashboardHome } from "../Pages/DashBoard/DashboardHome";
+import PrivateRoute from "./PrivateRoute";
 
 
 const routes = createBrowserRouter([
@@ -32,7 +33,7 @@ const routes = createBrowserRouter([
   },
    {
         path: "dashboard",
-        element: <DashboardLayout/>,
+        element: <PrivateRoute><DashboardLayout/></PrivateRoute>,
         children: [       
             {
                 index:true,
@@ -40,11 +41,11 @@ const routes = createBrowserRouter([
             },
             {
               path: "admin",
-              element: <adminRoutes/>,
+              element: <PrivateRoute><adminRoutes/></PrivateRoute>,
             },
             {
                 path: "user",
-                element: <UserDashboard/>
+                element: <PrivateRoute><UserDashboard/></PrivateRoute>,
             },
             {
                 path: "member",
