@@ -4,11 +4,16 @@ import useCourts from '../../../hook/useCourts';
 import Loading from '../../../shared/Loading/Loading';
 import { Plus, Edit3, Trash2, Clock, DollarSign, MapPin, Eye } from 'lucide-react';
 import EditCourtModal from './EditAdmin/EditCourtModal'; // Import the modal component
+import Swal from 'sweetalert2';
+import useAxiosSecure from '../../../hook/asioxSecure';
+ 
 
 const ManageCourts = () => {
     const [courts, isLoading, refetch] = useCourts();
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [selectedCourt, setSelectedCourt] = useState(null);
+    const axiosSecure = useAxiosSecure();
+
 
     if (isLoading) {
         return <Loading />;
@@ -22,6 +27,40 @@ const ManageCourts = () => {
     const handleCloseModal = () => {
         setIsEditModalOpen(false);
         setSelectedCourt(null);
+    };
+
+    const handleDeleteClick = (courtId) => {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axiosSecure.delete(`/delete-court/${courtId}`)
+                    .then(res => {
+                        if (res.data.deletedCount > 0) {
+                            Swal.fire(
+                                'Deleted!',
+                                'The court has been deleted.',
+                                'success'
+                            );
+                            refetch();
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error deleting court:", error);
+                        Swal.fire(
+                            'Failed!',
+                            'Could not delete the court.',
+                            'error'
+                        );
+                    });
+            }
+        });
     };
 
     const getCourtTypeIcon = (courtType) => {
@@ -39,7 +78,7 @@ const ManageCourts = () => {
 
     return (
         <>
-            <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 p-6">
+            <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-500 to-indigo-100 p-6">
                 <div className="max-w-7xl mx-auto">
                     {/* Header Section */}
                     <div className="mb-8">
@@ -65,33 +104,33 @@ const ManageCourts = () => {
                             
                             {/* Stats Cards */}
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-                                <div className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl p-4 text-white">
+                                <div className="bg-gradient-to-r from-gray-100 to-gray-100 rounded-xl p-4 text-gray-700">
                                     <div className="flex items-center justify-between">
                                         <div>
-                                            <p className="text-blue-100 text-sm">Total Courts</p>
+                                            <p className="text-gray-800 text-sm">Total Courts</p>
                                             <p className="text-2xl font-bold">{courts.length}</p>
                                         </div>
-                                        <MapPin className="w-8 h-8 text-blue-200" />
+                                        <MapPin className="w-8 h-8 text-blue-500" />
                                     </div>
                                 </div>
-                                <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-4 text-gray-700">
+                                <div className="bg-gradient-to-r from-gray-100 to-gray-100 rounded-xl p-4 text-gray-700">
                                     <div className="flex items-center justify-between">
                                         <div>
-                                            <p className="text-gray-700 text-sm">Active Courts</p>
+                                            <p className="text-gray-800 text-sm">Active Courts</p>
                                             <p className="text-2xl font-bold">{courts.length}</p>
                                         </div>
                                         <Eye className="w-8 h-8 text-gray-600" />
                                     </div>
                                 </div>
-                                <div className="bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl p-4 text-white">
+                                <div className="bg-gradient-to-r from-gray-100 to-gray-100 rounded-xl p-4 text-gray-700">
                                     <div className="flex items-center justify-between">
                                         <div>
-                                            <p className="text-purple-100 text-sm">Avg. Price</p>
+                                            <p className="ext-gray-800 text-sm">Avg. Price</p>
                                             <p className="text-2xl font-bold">
                                                 ${courts.length > 0 ? Math.round(courts.reduce((sum, court) => sum + court.pricePerSession, 0) / courts.length) : 0}
                                             </p>
                                         </div>
-                                        <DollarSign className="w-8 h-8 text-purple-200" />
+                                        <DollarSign className="w-8 h-8 text-purple-400" />
                                     </div>
                                 </div>
                             </div>
@@ -107,13 +146,7 @@ const ManageCourts = () => {
                                 </div>
                                 <h3 className="text-xl font-semibold text-gray-900 mb-2">No Courts Found</h3>
                                 <p className="text-gray-600 mb-6">Get started by creating your first court</p>
-                                <Link 
-                                    to="/dashboard/create-court"
-                                    className="inline-flex items-center bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl hover:shadow-lg transition-all duration-200"
-                                >
-                                    <Plus className="w-5 h-5 mr-2" />
-                                    Create New Court
-                                </Link>
+                              
                             </div>
                         ) : (
                             <div className="overflow-x-auto">
@@ -130,7 +163,7 @@ const ManageCourts = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {courts.map((court, index) => (
+                                            {courts.map((court) => (
                                                 <tr key={court._id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors duration-150">
                                                     <td className="py-4 px-6">
                                                         <div className="flex items-center">
@@ -140,9 +173,9 @@ const ManageCourts = () => {
                                                                     alt={court.courtType} 
                                                                     className="w-16 h-16 object-cover rounded-xl shadow-md" 
                                                                 />
-                                                                <div className="absolute -top-2 -right-2 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
+                                                                {/* <div className="absolute -top-2 -right-2 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
                                                                     <span className="text-white text-xs font-bold">{index + 1}</span>
-                                                                </div>
+                                                                </div> */}
                                                             </div>
                                                         </div>
                                                     </td>
@@ -166,10 +199,13 @@ const ManageCourts = () => {
                                                     </td>
                                                     <td className="py-4 px-6">
                                                         <div className="flex items-center justify-center space-x-2">
-                                                            <button onClick={() => handleEditClick(court)} className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-200 group">
+                                                            <button onClick={() => handleEditClick(court)} 
+                                                            className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-200 group">
                                                                 <Edit3 className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
                                                             </button>
-                                                            <button className="bg-red-500 hover:bg-red-600 text-white p-2 rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-200 group">
+                                                            <button 
+                                                              onClick={() => handleDeleteClick(court._id)}
+                                                            className="bg-red-500 hover:bg-red-600 text-white p-2 rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-200 group">
                                                                 <Trash2 className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
                                                             </button>
                                                         </div>
@@ -218,7 +254,9 @@ const ManageCourts = () => {
                                                     <Edit3 className="w-4 h-4 mr-2" />
                                                     Edit
                                                 </button>
-                                                <button className="flex-1 bg-red-500 hover:bg-red-600 text-white font-semibold py-3 px-4 rounded-xl shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-200 flex items-center justify-center">
+                                                <button 
+                                                onClick={() => handleDeleteClick(court._id)}
+                                                className="flex-1 bg-red-500 hover:bg-red-600 text-white font-semibold py-3 px-4 rounded-xl shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-200 flex items-center justify-center">
                                                     <Trash2 className="w-4 h-4 mr-2" />
                                                     Delete
                                                 </button>

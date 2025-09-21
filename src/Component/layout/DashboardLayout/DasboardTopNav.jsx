@@ -1,7 +1,9 @@
 import { Package, User } from "lucide-react";
 
 const DasboardTopNav = ({ role, onSidebarToggle }) => {
+  console.log("dasboard nav role", role);
   return (
+    
     <header className="bg-white border-b border-gray-200 px-6 py-4">
       <div className="flex items-center justify-between">
         <button

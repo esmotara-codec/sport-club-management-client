@@ -10,6 +10,7 @@ import DashboardLayout from "../layout/DashboardLayout/DashBoardLayout";
 import { DashboardHome } from "../Pages/DashBoard/DashboardHome";
 import PrivateRoute from "./PrivateRoute";
 import { AdminRoutes } from "./AdminRoutes";
+import PublicCourtsPage from "../Pages/CourtPage/PublicCourtsPage";
 
 
 const routes = createBrowserRouter([
@@ -29,6 +30,10 @@ const routes = createBrowserRouter([
       {
         path: "sign-up",
         element: <SignUp/>,
+      },
+      {
+        path: 'court-list',
+        element: <PublicCourtsPage/>,
       }
     ]
   },
