@@ -53,11 +53,13 @@ const Footer = () => {
             {/* Company Info */}
             <div className="space-y-6">
               <div className="flex items-center gap-3">
-                <div className="bg-gradient-to-r from-[#108ac2] to-[#0d6fa0] p-3 rounded-2xl">
-                  <Trophy className="w-8 h-8 text-white" />
-                </div>
+                <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+              <Trophy className="size-6 text-white" />
+            </div>
                 <div>
-                  <h3 className="text-2xl font-bold text-white">SportClub</h3>
+                 <h1 className="text-2xl font-bold text-white">
+                Sport<span className="text-blue-400">Club</span>
+              </h1>
                   <p className="text-sm text-gray-400">Excellence in Sports</p>
                 </div>
               </div>

@@ -2,7 +2,7 @@ import { Bell, Calendar, ChevronRight, CreditCard, Crown, LayoutDashboard, Targe
 import { useContext, useState } from "react";
 import { AuthContext } from "../../Context/AuthContext";
 import useRole from "../../hook/useRole";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const adminSidebarItems = [
   { id: 'insights', name: "Insights", path: '/dashboard/admin', icon: <LayoutDashboard className="size-5" />, category: "Overview" },
@@ -74,26 +74,27 @@ const Sidebar = () => {
     navigate(item.path);
   };
 
-  const toggleSidebar = () => {
-    setSidebarCollapsed(!sidebarCollapsed);
-  };
+
 
   return (
     <div className={`${sidebarCollapsed ? 'w-20' : 'w-full'} h-full transition-all duration-300 bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 shadow-2xl flex flex-col`}>
       {/* Logo */}
       <div className="flex items-center justify-center py-8 border-b border-slate-700">
         {!sidebarCollapsed ? (
-          <div className="flex items-center space-x-2">
+         
+           <Link to="/" className="flex items-center space-x-2">
             <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
               <Trophy className="size-6 text-white" />
             </div>
+          
             <div>
               <h1 className="text-2xl font-bold text-white">
                 Sport<span className="text-blue-400">Club</span>
               </h1>
               <p className="text-xs text-slate-400 uppercase tracking-wider">{role} Portal</p>
             </div>
-          </div>
+             </Link>
+          
         ) : (
           <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
             <Trophy className="size-6 text-white" />
@@ -101,23 +102,14 @@ const Sidebar = () => {
         )}
       </div>
 
-      {/* Toggle Button */}
-      <div className="flex justify-end p-4">
-        <button
-          onClick={toggleSidebar}
-          className="p-2 rounded-lg hover:bg-slate-700 transition-colors text-slate-400 hover:text-white"
-        >
-          <ChevronRight className={`size-4 transition-transform ${sidebarCollapsed ? 'rotate-0' : 'rotate-180'}`} />
-        </button>
-      </div>
-
+    
       {/* Navigation Sections */}
       <div className="px-4 pb-6 overflow-y-auto flex-1">
         <div className="space-y-6">
           {Object.entries(groupedItems).map(([category, items]) => (
             <div key={category}>
               {!sidebarCollapsed && (
-                <h3 className="text-xs uppercase text-slate-400 font-semibold mb-3 px-3">
+                <h3 className="text-xs uppercase text-slate-400 font-semibold mb-3 px-3 pt-5">
                   {category}
                 </h3>
               )}

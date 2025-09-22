@@ -1,6 +1,5 @@
 import { useContext, useState } from "react";
-import logo from "./../../../assets/sportclub-logo.jpg";
-import { Menu, X } from "lucide-react";
+import { Menu, Trophy, X } from "lucide-react";
 import { Link } from "react-router";
 import DynamicLink from "./DynamicLink";
 import Container from "../../layout/Container";
@@ -69,14 +68,18 @@ const Nav = () => {
 
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2">
-              <img
+              {/* <img
                 src={logo}
                 alt="sportclub-Logo"
                 className="w-10 h-10 md:w-12 md:h-12 object-cover"
-              />
-              <h3 className="font-bold text-lg md:text-xl text-black">
-                SportClub
-              </h3>
+              /> */}
+
+              <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+              <Trophy className="size-6 text-white" />
+            </div>
+              <h1 className="text-2xl font-bold text-gray-800">
+                Sport<span className="text-blue-400">Club</span>
+              </h1>
             </Link>
           </div>
 
