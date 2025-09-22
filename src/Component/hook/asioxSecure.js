@@ -7,7 +7,7 @@ const useAxiosSecure = () => {
   const { user } = useContext(AuthContext);
 
   const accessToken = user?.accessToken; 
-  console.log("useAxiosSecure", accessToken);
+
 
   const instance = axios.create({
     baseURL: "http://localhost:5000/",

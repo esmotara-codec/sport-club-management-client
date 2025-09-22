@@ -14,7 +14,12 @@ const CreateCourt = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const axiosPublic =  useAxiosPublic(); // Use the secure axios instance for public requests
 
+
+  // Add this debug line to check if your API key is loaded
+console.log('ImgBB API Key:', import.meta.env.VITE_IMGBB_API_KEY ? 'Loaded' : 'Missing');
+ 
   const onSubmit = async (data) => {
+      console.log('API Key being used:', import.meta.env.VITE_IMGBB_API_KEY);
     setIsUploading(true);
 
     if (!imagePreview) {
@@ -100,14 +105,12 @@ const CreateCourt = () => {
   };
 
   const slotTimes = [
-    '09:00 AM - 10:00 AM',
-    '10:00 AM - 11:00 AM',
-    '11:00 AM - 12:00 PM',
-    '12:00 PM - 01:00 PM',
-    '01:00 PM - 02:00 PM',
-    '02:00 PM - 03:00 PM',
-    '03:00 PM - 04:00 PM',
-    '04:00 PM - 05:00 PM',
+    '09:00 AM - 05:00 PM',
+    '10:00 AM - 06:00 PM',
+    '07:00 AM - 06:00 PM',
+    '08:00 PM - 06:00 PM',
+    '08:00 PM - 04:00 PM',
+   
   ];
 
   const courtTypes = [

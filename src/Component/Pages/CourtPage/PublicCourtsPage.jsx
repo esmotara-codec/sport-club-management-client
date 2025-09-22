@@ -1,14 +1,17 @@
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Clock, DollarSign, Calendar, X, Plus, Minus } from 'lucide-react';
+import { Clock, DollarSign, Calendar, X } from 'lucide-react';
 import { AuthContext } from '../../Context/AuthContext';
 import useCourts from '../../hook/useCourts';
 import Loading from '../../shared/Loading/Loading';
+import useAxiosSecure from '../../hook/asioxSecure';
+import { toast } from 'react-toastify';
 
 const PublicCourtsPage = () => {
     const [courts, isLoading] = useCourts();
     const { user } = useContext(AuthContext);
     const navigate = useNavigate();
+    const axiosSecure = useAxiosSecure();
     const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
     const [selectedCourt, setSelectedCourt] = useState(null);
     const [selectedSlots, setSelectedSlots] = useState([]);
@@ -68,30 +71,33 @@ const PublicCourtsPage = () => {
         return selectedSlots.length * selectedCourt.pricePerSession;
     };
 
-    const handleBookingSubmit = (e) => {
+    const handleBookingSubmit = async (e) => {
         e.preventDefault();
         
         const bookingData = {
             courtId: selectedCourt._id,
-            courtType: selectedCourt.courtType,
+            courtName: selectedCourt.courtType,
             courtImage: selectedCourt.courtImage,
-            selectedSlots,
-            selectedDate,
+            time: selectedSlots,
+            date: selectedDate,
             totalPrice: calculateTotalPrice(),
-            status: 'pending'
+            status: 'pending',
+            userEmail: user.email
         };
 
-        // Here you would send the booking request to your backend
-        console.log('Booking submitted:', bookingData);
+        try {
+            await axiosSecure.post('/bookings', bookingData);
+            toast.success('Booking request submitted! Waiting for admin approval.');
+        } catch (error) {
+            console.error('Error submitting booking request:', error);
+            toast.error('Failed to submit booking request.');
+        }
         
         // Close modal and reset
         setIsBookingModalOpen(false);
         setSelectedCourt(null);
         setSelectedSlots([]);
         setSelectedDate('');
-        
-        // Show success message (you can use Swal here)
-        alert('Booking request submitted! Waiting for admin approval.');
     };
 
     const getMinDate = () => {

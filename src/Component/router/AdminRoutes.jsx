@@ -7,6 +7,7 @@ import ManageUsers from "../Pages/DashBoard/Admin Dashboard/ManageUsers";
 import MakeAnnouncement from "../Pages/DashBoard/Admin Dashboard/MakeAnnouncement";
 import AdminProfile from "../Pages/DashBoard/Profile/AdminProfile";
 import CreateCourt from "../Pages/DashBoard/Admin Dashboard/CreateCourt";
+import ManageBookingApproval from "../Pages/DashBoard/Admin Dashboard/ManageBookingApproval";
 
 export const AdminRoutes = [
   {
@@ -24,6 +25,10 @@ export const AdminRoutes = [
   {
     path: "manage-bookings",
     element: <ManageBookings />,
+  },
+  {
+    path: "manage-bookings-approval",
+    element: <ManageBookingApproval />,
   },
   {
     path: "manage-courts",

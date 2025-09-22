@@ -40,7 +40,10 @@ const routes = createBrowserRouter([
    {
         path: "dashboard",
         element: <PrivateRoute><DashboardLayout/></PrivateRoute>,
-        children: AdminRoutes
+        children: [
+          ...AdminRoutes ,
+          
+        ]
         // [       
         //     {
         //         index:true,
