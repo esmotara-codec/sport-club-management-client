@@ -2,8 +2,10 @@
 import { Outlet } from "react-router";
 import Sidebar from "../../Pages/DashBoard/Sidebar";
 import DasboardTopNav from "./DasboardTopNav";
+import useRole from "../../hook/useRole";
 
 const DashboardLayout = () => {
+  const { role } = useRole();
   return (
     <div className="min-h-screen flex bg-gray-100">
       {/* Sidebar */}
@@ -15,7 +17,7 @@ const DashboardLayout = () => {
       <div className="flex-1 flex flex-col">
         {/* Header */}
         <header className="sticky top-0 z-20 bg-white shadow-sm ">
-         <DasboardTopNav/>
+         <DasboardTopNav role={role}/>
         </header>
         
         {/* Main Content */}

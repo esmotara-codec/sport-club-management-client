@@ -1,9 +1,13 @@
 import React from 'react';
+import Insight from '../Insight/insight';
+import useRole from '../../../hook/useRole';
 
 const AdminDashBoard = () => {
+    const {role} = useRole();
+   
     return (
         <div>
-            <h2>Admin Dashboard</h2>
+            <Insight role= {role}/>
         </div>
     );
 };

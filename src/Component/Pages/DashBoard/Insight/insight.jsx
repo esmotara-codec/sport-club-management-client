@@ -2,6 +2,7 @@ import { Calendar, Crown, Target, Users } from "lucide-react";
 import InsightCard from "./InsightCard";
 
 const Insight = ({ role }) => {
+
   // Mock insights data
   const mockInsightsData = {
     totalCourts: 12,
@@ -15,9 +16,10 @@ const Insight = ({ role }) => {
     <div className="p-8 bg-gray-50 min-h-screen">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-800 mb-2">
-          {role.charAt(0).toUpperCase() + role.slice(1)} Dashboard
+          {/* {role.charAt(0).toUpperCase() + role.slice(1)} Dashboard */}
+         Hey there!
         </h1>
-        <p className="text-gray-600">Welcome back! Here's what's happening with your sport club.</p>
+        <p className="text-gray-600"> Here's what's happening with your sport club.</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
