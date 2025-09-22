@@ -24,6 +24,7 @@ const ManageBookingApproval = () => {
         },
         onSuccess: () => {
             queryClient.invalidateQueries('bookings');
+            queryClient.invalidateQueries('members');
             toast.success('Booking status updated successfully');
         },
         onError: () => {
@@ -120,7 +121,7 @@ const ManageBookingApproval = () => {
     // Filter bookings by status for statistics
     const pendingBookings = bookings.filter(booking => booking.status === 'pending');
     const approvedBookings = bookings.filter(booking => booking.status === 'approved');
-    const rejectedBookings = bookings.filter(booking => booking.status === 'rejected');
+   
 
     return (
         <div className="min-h-screen bg-gray-50 p-6">

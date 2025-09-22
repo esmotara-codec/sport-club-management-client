@@ -5,7 +5,7 @@ import { AuthContext } from '../../Context/AuthContext';
 import useCourts from '../../hook/useCourts';
 import Loading from '../../shared/Loading/Loading';
 import useAxiosSecure from '../../hook/asioxSecure';
-import { toast } from 'react-toastify';
+import Swal from 'sweetalert2';
 
 const PublicCourtsPage = () => {
     const [courts, isLoading] = useCourts();
@@ -14,7 +14,7 @@ const PublicCourtsPage = () => {
     const axiosSecure = useAxiosSecure();
     const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
     const [selectedCourt, setSelectedCourt] = useState(null);
-    const [selectedSlots, setSelectedSlots] = useState([]);
+    const [selectedSlot, setSelectedSlot] = useState(null);
     const [selectedDate, setSelectedDate] = useState('');
 
     if (isLoading) {
@@ -34,41 +34,24 @@ const PublicCourtsPage = () => {
         return icons[courtType] || '🏟️';
     };
 
-    const slotTimes = [
-        '09:00 AM - 10:00 AM',
-        '10:00 AM - 11:00 AM',
-        '11:00 AM - 12:00 PM',
-        '12:00 PM - 01:00 PM',
-        '01:00 PM - 02:00 PM',
-        '02:00 PM - 03:00 PM',
-        '03:00 PM - 04:00 PM',
-        '04:00 PM - 05:00 PM',
-    ];
-
     const handleBookNow = (court) => {
         if (!user) {
             navigate('/login');
             return;
         }
         setSelectedCourt(court);
-        setSelectedSlots([court.slotTime]);
+        setSelectedSlot(null);
         setSelectedDate('');
         setIsBookingModalOpen(true);
     };
 
     const handleSlotChange = (slot) => {
-        setSelectedSlots(prev => {
-            if (prev.includes(slot)) {
-                return prev.filter(s => s !== slot);
-            } else {
-                return [...prev, slot];
-            }
-        });
+        setSelectedSlot(slot);
     };
 
     const calculateTotalPrice = () => {
-        if (!selectedCourt) return 0;
-        return selectedSlots.length * selectedCourt.pricePerSession;
+        if (!selectedCourt || !selectedSlot) return 0;
+        return selectedCourt.pricePerSession;
     };
 
     const handleBookingSubmit = async (e) => {
@@ -78,7 +61,7 @@ const PublicCourtsPage = () => {
             courtId: selectedCourt._id,
             courtName: selectedCourt.courtType,
             courtImage: selectedCourt.courtImage,
-            time: selectedSlots,
+            time: selectedSlot,
             date: selectedDate,
             totalPrice: calculateTotalPrice(),
             status: 'pending',
@@ -86,17 +69,25 @@ const PublicCourtsPage = () => {
         };
 
         try {
-            await axiosSecure.post('/bookings', bookingData);
-            toast.success('Booking request submitted! Waiting for admin approval.');
+            await axiosSecure.post('/create-bookings', bookingData);
+            Swal.fire(
+                'Success!',
+                'Booking request submitted! Waiting for admin approval.',
+                'success'
+            );
         } catch (error) {
             console.error('Error submitting booking request:', error);
-            toast.error('Failed to submit booking request.');
+            Swal.fire(
+                'Error!',
+                'Failed to submit booking request.',
+                'error'
+            );
         }
         
         // Close modal and reset
         setIsBookingModalOpen(false);
         setSelectedCourt(null);
-        setSelectedSlots([]);
+        setSelectedSlot(null);
         setSelectedDate('');
     };
 
@@ -222,14 +213,15 @@ const PublicCourtsPage = () => {
                             <div>
                                 <label className="block text-sm font-semibold text-gray-700 mb-3">
                                     <Clock className="w-4 h-4 inline mr-1" />
-                                    Select Time Slots
+                                    Select Time Slot
                                 </label>
                                 <div className="grid grid-cols-2 gap-3">
-                                    {slotTimes.map((slot) => (
+                                    {[selectedCourt.slotTime].map((slot) => (
                                         <label key={slot} className="relative cursor-pointer">
                                             <input
-                                                type="checkbox"
-                                                checked={selectedSlots.includes(slot)}
+                                                type="radio"
+                                                name="time-slot"
+                                                checked={selectedSlot === slot}
                                                 onChange={() => handleSlotChange(slot)}
                                                 className="sr-only peer"
                                             />
@@ -241,8 +233,8 @@ const PublicCourtsPage = () => {
                                         </label>
                                     ))}
                                 </div>
-                                {selectedSlots.length === 0 && (
-                                    <p className="text-red-500 text-sm mt-2">Please select at least one time slot</p>
+                                {!selectedSlot && (
+                                    <p className="text-red-500 text-sm mt-2">Please select a time slot</p>
                                 )}
                             </div>
 
@@ -250,7 +242,7 @@ const PublicCourtsPage = () => {
                             <div className="bg-blue-50 p-4 rounded-xl">
                                 <div className="flex justify-between items-center mb-2">
                                     <span className="text-gray-700">Selected Slots:</span>
-                                    <span className="font-semibold">{selectedSlots.length}</span>
+                                    <span className="font-semibold">{selectedSlot ? 1 : 0}</span>
                                 </div>
                                 <div className="flex justify-between items-center mb-2">
                                     <span className="text-gray-700">Price per Slot:</span>
@@ -274,7 +266,7 @@ const PublicCourtsPage = () => {
                                 </button>
                                 <button
                                     type="submit"
-                                    disabled={selectedSlots.length === 0 || !selectedDate}
+                                    disabled={!selectedSlot || !selectedDate}
                                     className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold py-3 px-6 rounded-xl transition-colors duration-200"
                                 >
                                     Submit Booking Request

@@ -122,7 +122,7 @@ const Nav = () => {
                   <div className="absolute top-10 right-0 bg-white border border-gray-200 rounded-lg shadow-lg p-4 w-[300px] z-10">
                     <div>
                       <strong className="text-lg text-gray-700">
-                        { user.displayName  || user.role ||user.email} 
+                        { user.displayName  || user.name } 
                       </strong>
                     </div>
                     <hr className="my-2" />
