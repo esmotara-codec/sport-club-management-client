@@ -160,16 +160,16 @@ const ManageCoupons = () => {
 
                         {/* Statistics */}
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div className="bg-gradient-to-r from-gray-100 to-gray-200 rounded-xl p-4 text-blue-500">
+                            <div className="bg-gray-100 rounded-xl p-4 border border-gray-200">
                                 <div className="flex items-center justify-between">
                                     <div>
-                                        <p className="text-blue-600 text-sm">Total Coupons</p>
+                                        <p className="text-gray-600 text-sm">Total Coupons</p>
                                         <p className="text-2xl font-bold">{coupons.length}</p>
                                     </div>
-                                    <Ticket className="w-8 h-8 text-blue-700" />
+                                    <Ticket className="w-8 h-8 text-gray-700" />
                                 </div>
                             </div>
-                            {/* <div className="bg-gradient-to-r from-gray-100 to-gray-200 rounded-xl p-4 text-blue-500">
+                            {/* <div className="bg-gray-100 rounded-xl p-4 border border-gray-200">
                                 <div className="flex items-center justify-between">
                                     <div>
                                         <p className="text-blue-700 text-sm">Active Coupons</p>
