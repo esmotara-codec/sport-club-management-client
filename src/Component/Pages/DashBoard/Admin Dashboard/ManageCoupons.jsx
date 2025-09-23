@@ -24,7 +24,7 @@ const ManageCoupons = () => {
 
     const addMutation = useMutation({
         mutationFn: async (newCoupon) => {
-            const res = await axiosSecure.post('/coupons', newCoupon);
+            const res = await axiosSecure.post('/create-coupons', newCoupon);
             return res.data;
         },
         onSuccess: () => {
@@ -41,7 +41,7 @@ const ManageCoupons = () => {
 
     const updateMutation = useMutation({
         mutationFn: async (updatedCoupon) => {
-            const res = await axiosSecure.put(`/coupons/${couponId}`, updatedCoupon);
+            const res = await axiosSecure.put(`/update-coupons/${couponId}`, updatedCoupon);
             return res.data;
         },
         onSuccess: () => {
@@ -60,7 +60,7 @@ const ManageCoupons = () => {
 
     const deleteMutation = useMutation({
         mutationFn: async (id) => {
-            const res = await axiosSecure.delete(`/coupons/${id}`);
+            const res = await axiosSecure.delete(`/delete-coupons/${id}`);
             return res.data;
         },
         onSuccess: () => {

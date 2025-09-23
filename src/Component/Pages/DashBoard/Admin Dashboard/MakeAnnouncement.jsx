@@ -25,7 +25,7 @@ const MakeAnnouncement = () => {
 
     const addMutation = useMutation({
         mutationFn: async (newAnnouncement) => {
-            const res = await axiosSecure.post('/announcements', newAnnouncement);
+            const res = await axiosSecure.post('/create-announcements', newAnnouncement);
             return res.data;
         },
         onSuccess: () => {
@@ -41,7 +41,7 @@ const MakeAnnouncement = () => {
 
     const deleteMutation = useMutation({
         mutationFn: async (id) => {
-            const res = await axiosSecure.delete(`/announcements/${id}`);
+            const res = await axiosSecure.delete(`/delete-announcements/${id}`);
             return res.data;
         },
         onSuccess: () => {

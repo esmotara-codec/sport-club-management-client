@@ -17,7 +17,7 @@ const EditAnnouncementModal = ({ isOpen, announcement, onClose, axiosSecure, que
 
     const updateMutation = useMutation({
         mutationFn: async (updatedAnnouncement) => {
-            const res = await axiosSecure.put(`/announcements/${announcement._id}`, updatedAnnouncement);
+            const res = await axiosSecure.put(`/update-announcements/${announcement._id}`, updatedAnnouncement);
             return res.data;
         },
         onSuccess: () => {
@@ -44,7 +44,7 @@ const EditAnnouncementModal = ({ isOpen, announcement, onClose, axiosSecure, que
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-gray-800/80 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-gray-200">
                 {/* Modal Header */}
                 <div className="flex items-center justify-between p-6 border-b border-gray-200">
@@ -106,7 +106,7 @@ const EditAnnouncementModal = ({ isOpen, announcement, onClose, axiosSecure, que
                         <button
                             type="submit"
                             disabled={updateMutation.isLoading}
-                            className="flex-1 bg-gray-700 hover:bg-gray-800 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold py-3 px-6 rounded-xl transition-colors duration-200 flex items-center justify-center"
+                            className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700  disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold py-3 px-6 rounded-xl transition-colors duration-200 flex items-center justify-center"
                         >
                             {updateMutation.isLoading ? (
                                 <>
