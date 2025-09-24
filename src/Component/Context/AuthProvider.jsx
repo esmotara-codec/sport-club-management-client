@@ -42,14 +42,19 @@ const AuthProvider = ({ children }) => {
                 }).then((res) => {
                     setUser(currentUser);
                     console.log(res.data);
+                    setLoading(false);
                 });
             }
-            setLoading(false);
+            else{
+                setUser(null);
+                setLoading(false);
+            }
+            
         })
         return () => {
             unSubscribe();
         }
-    }, [])
+    }, [ axiosPublic])
 
 
     const userInfo = {

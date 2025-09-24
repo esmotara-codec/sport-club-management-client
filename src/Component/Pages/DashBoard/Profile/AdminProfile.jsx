@@ -57,11 +57,12 @@ const AdminProfile = () => {
         if (file) {
             setIsUploading(true);
             const formData = new FormData();
-            formData.append('image', file);
+            formData.append('file', file);
+            formData.append('upload_preset', import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET);
 
             try {
-                const res = await axios.post(`https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_API_KEY}`, formData);
-                const photoURL = res.data.data.url;
+                const res = await axios.post(`https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_NAME}/image/upload`, formData);
+                const photoURL = res.data.secure_url;
                 mutation.mutate({ photoURL });
             } catch (error) {
                 console.error('Error uploading image:', error);
@@ -75,7 +76,7 @@ const AdminProfile = () => {
 
     return (
         <div className="p-8 bg-gray-100 min-h-screen">
-            <div className="max-w-4xl mx-auto">
+            <div className="max-w-6xl mx-auto">
                 <div className="bg-white shadow-lg rounded-lg overflow-hidden">
                     <div className="p-6">
                         <div className="flex flex-col md:flex-row items-center md:space-x-8">

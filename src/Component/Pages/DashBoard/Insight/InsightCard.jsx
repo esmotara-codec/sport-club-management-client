@@ -22,12 +22,12 @@ const InsightCard = ({ title, value, icon, color = "blue" }) => {
           </div>
         </div>
       </div>
-      <div className="p-4">
+      {/* <div className="p-4">
         <div className="flex items-center text-sm text-gray-600">
           <ChevronRight className="size-4 mr-1" />
           View Details
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

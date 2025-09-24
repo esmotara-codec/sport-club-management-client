@@ -1,126 +1,137 @@
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import useAxiosSecure from '../../../hook/asioxSecure';
-import Swal from 'sweetalert2';
-import useCourts from '../../../hook/useCourts';
-import { Camera, Clock, DollarSign, MapPin, Plus, Upload, CheckCircle } from 'lucide-react';
-import useAxiosPublic from '../../../hook/useAxiosPublic';
+import React, { useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+import useAxiosSecure from "../../../hook/asioxSecure";
+import Swal from "sweetalert2";
+import useCourts from "../../../hook/useCourts";
+import {
+  Camera,
+  Clock,
+  DollarSign,
+  MapPin,
+  Plus,
+  Upload,
+  CheckCircle,
+} from "lucide-react";
+import useAxiosPublic from "../../../hook/useAxiosPublic";
 
 const CreateCourt = () => {
-  const { register, handleSubmit, formState: { errors }, reset } = useForm();
+  const {
+    register,
+    handleSubmit, 
+    formState: { errors },
+    reset,
+  } = useForm();
+  const fileInputRef = useRef(null); 
   const axiosSecure = useAxiosSecure();
   const [, , refetch] = useCourts();
   const [isUploading, setIsUploading] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
-  const axiosPublic =  useAxiosPublic(); // Use the secure axios instance for public requests
-
-
-  // Add this debug line to check if your API key is loaded
-console.log('ImgBB API Key:', import.meta.env.VITE_IMGBB_API_KEY ? 'Loaded' : 'Missing');
- 
+  const axiosPublic = useAxiosPublic(); 
   const onSubmit = async (data) => {
-      console.log('API Key being used:', import.meta.env.VITE_IMGBB_API_KEY);
+   
     setIsUploading(true);
 
-    if (!imagePreview) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Image Not Found',
-            text: 'Please select an image to upload.',
-            confirmButtonColor: '#EF4444'
-        });
-        setIsUploading(false);
-        return;
+    const file = fileInputRef.current.files[0];
+    if (!file) {
+      Swal.fire({
+        icon: "error",
+        title: "Image Not Found",
+        text: "Please select an image to upload.",
+        confirmButtonColor: "#EF4444",
+      });
+      setIsUploading(false);
+      return;
     }
 
-    const base64Image = imagePreview.split(',')[1];
     const formData = new FormData();
-    formData.append('image', base64Image);
+    formData.append("file", file);
+   formData.append("upload_preset", import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET);
 
     try {
-        // Step 1: Upload image
-        const res = await axiosPublic.post(`https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_API_KEY}`, formData);
+      // Step 1: Upload image to Cloudinary
+     const res = await axiosPublic.post(
+  `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_NAME}/image/upload`,
+  formData,
+  { headers: { "Content-Type": "multipart/form-data" } }
+);
 
-        // Step 2: Create court with the returned image URL
-        const courtInfo = {
-            courtType: data.courtType,
-            slotTime: data.slotTime,
-            pricePerSession: data.pricePerSession,
-            courtImage: res.data.data.display_url
-        };
+      // Step 2: Create court with the returned image URL
+      const courtInfo = {
+        courtType: data.courtType,
+        slotTime: data.slotTime,
+        pricePerSession: data.pricePerSession,
+        courtImage: res.data.secure_url,
+      };
 
-        await axiosSecure.post('/create-court', courtInfo);
+      await axiosSecure.post("/create-court", courtInfo);
 
-        // Step 3: Handle success
-        reset();
-        refetch();
-        setImagePreview(null);
-        Swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: 'Court created successfully!',
-            showConfirmButton: false,
-            timer: 2000,
-            background: '#10B981',
-            color: 'white',
-            toast: true
-        });
-
+      // Step 3: Handle success
+      reset();
+      refetch();
+      setImagePreview(null);
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Court created successfully!",
+        showConfirmButton: false,
+        timer: 2000,
+        background: "#10B981",
+        color: "white",
+        toast: true,
+      });
     } catch (error) {
-        console.error('Error during court creation process:', error);
-        const errorMessage = error.response?.data?.error?.message || error.response?.data?.message || 'An unknown error occurred.';
-        let title = 'Request Failed';
+      console.log(error);
+      console.error("Error during court creation process:", error);
+      const errorMessage =
+        error.response?.data?.error?.message ||
+        error.response?.data?.message ||
+        "An unknown error occurred.";
+      let title = "Request Failed";
 
-        if (error.response) {
-            if (error.response.status === 403) {
-                title = 'Authorization Error';
-            } else if (error.config.url.includes('api.imgbb.com')) {
-                title = 'Image Upload Failed';
-            }
-        } else if (!error.response) {
-            title = 'Network Error';
+      if (error.response) {
+        if (error.response.status === 403) {
+          title = "Authorization Error";
+        } else if (error.config.url.includes("cloudinary")) {
+          title = "Image Upload Failed";
         }
+      } else if (!error.response) {
+        title = "Network Error";
+      }
 
-        Swal.fire({
-            icon: 'error',
-            title: title,
-            text: errorMessage,
-            confirmButtonColor: '#EF4444'
-        });
+      Swal.fire({
+        icon: "error",
+        title: title,
+        text: errorMessage,
+        confirmButtonColor: "#EF4444",
+      });
     } finally {
-        setIsUploading(false);
+      setIsUploading(false);
     }
-};
+  };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    console.log('File selected:', file); // Add this line
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result);
-      };
-      reader.readAsDataURL(file);
+      setImagePreview(URL.createObjectURL(file));
     }
   };
 
   const slotTimes = [
-    '09:00 AM - 05:00 PM',
-    '10:00 AM - 06:00 PM',
-    '07:00 AM - 06:00 PM',
-    '08:00 PM - 06:00 PM',
-    '08:00 PM - 04:00 PM',
-   
+    "09:00 AM - 05:00 PM",
+    "10:00 AM - 06:00 PM",
+    "07:00 AM - 06:00 PM",
+    "08:00 PM - 06:00 PM",
+    "08:00 PM - 04:00 PM",
   ];
 
   const courtTypes = [
-    { value: 'Tennis', icon: '🎾' },
-    { value: 'Badminton', icon: '🏸' },
-    { value: 'Squash', icon: '🏓' },
-    { value: 'Basketball', icon: '🏀' },
-    { value: 'Volleyball', icon: '🏐' },
-    { value: 'Football', icon: '⚽' },
-    { value: 'Swimming', icon: '🏊‍♂️' },
+    { value: "Tennis", icon: "🎾" },
+    { value: "Badminton", icon: "🏸" },
+    { value: "Squash", icon: "🏓" },
+    { value: "Basketball", icon: "🏀" },
+    { value: "Volleyball", icon: "🏐" },
+    { value: "Football", icon: "⚽" },
+    { value: "Swimming", icon: "🏊‍♂️" },
   ];
 
   return (
@@ -128,9 +139,12 @@ console.log('ImgBB API Key:', import.meta.env.VITE_IMGBB_API_KEY ? 'Loaded' : 'M
       <div className="max-w-8xl mx-auto">
         {/* Header Section */}
         <div className="text-center mb-10">
-         
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Create New Court</h1>
-          <p className="text-gray-600 text-lg">Add a new sports court to your facility</p>
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">
+            Create New Court
+          </h1>
+          <p className="text-gray-600 text-lg">
+            Add a new sports court to your facility
+          </p>
         </div>
 
         {/* Main Form Container */}
@@ -149,12 +163,12 @@ console.log('ImgBB API Key:', import.meta.env.VITE_IMGBB_API_KEY ? 'Loaded' : 'M
                 <Camera className="w-5 h-5 mr-2 text-blue-600" />
                 Court Image
               </label>
-              
+
               <div className="relative">
                 <input
                   type="file"
                   id="courtImage"
-                  {...register('courtImage', { required: 'Court image is required' })}
+                  ref={fileInputRef}
                   onChange={handleImageChange}
                   className="hidden"
                   accept="image/*"
@@ -165,7 +179,11 @@ console.log('ImgBB API Key:', import.meta.env.VITE_IMGBB_API_KEY ? 'Loaded' : 'M
                 >
                   {imagePreview ? (
                     <div className="relative w-full h-full">
-                      <img src={imagePreview} alt="Preview" className="w-full h-full object-cover rounded-2xl" />
+                      <img
+                        src={imagePreview}
+                        alt="Preview"
+                        className="w-full h-full object-cover rounded-2xl"
+                      />
                       {/* <div className="absolute inset-0 bg-black bg-opacity-30 rounded-2xl flex items-center justify-center">
                         <CheckCircle className="w-12 h-12 text-green-400" />
                       </div> */}
@@ -173,18 +191,19 @@ console.log('ImgBB API Key:', import.meta.env.VITE_IMGBB_API_KEY ? 'Loaded' : 'M
                   ) : (
                     <div className="flex flex-col items-center">
                       <Upload className="w-12 h-12 text-blue-500 mb-4" />
-                      <p className="text-xl font-medium text-gray-700 mb-2">Upload Court Image</p>
-                      <p className="text-gray-500">Click to select or drag and drop</p>
-                      <p className="text-sm text-gray-400 mt-2">PNG, JPG up to 10MB</p>
+                      <p className="text-xl font-medium text-gray-700 mb-2">
+                        Upload Court Image
+                      </p>
+                      <p className="text-gray-500">
+                        Click to select or drag and drop
+                      </p>
+                      <p className="text-sm text-gray-400 mt-2">
+                        PNG, JPG up to 10MB
+                      </p>
                     </div>
                   )}
                 </label>
-                {errors.courtImage && (
-                  <p className="text-red-500 text-sm mt-2 flex items-center">
-                    <span className="w-2 h-2 bg-red-500 rounded-full mr-2"></span>
-                    {errors.courtImage.message}
-                  </p>
-                )}
+                
               </div>
             </div>
 
@@ -194,24 +213,28 @@ console.log('ImgBB API Key:', import.meta.env.VITE_IMGBB_API_KEY ? 'Loaded' : 'M
                 <MapPin className="w-5 h-5 mr-2 text-blue-600" />
                 Court Type
               </label>
-              
+
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {courtTypes.map((type) => (
                   <label key={type.value} className="relative cursor-pointer">
                     <input
                       type="radio"
                       value={type.value}
-                      {...register('courtType', { required: 'Court type is required' })}
+                      {...register("courtType", {
+                        required: "Court type is required",
+                      })}
                       className="sr-only peer"
                     />
                     <div className="flex items-center justify-center p-4 bg-gray-50 border-2 border-gray-200 rounded-xl hover:bg-blue-50 hover:border-blue-300 peer-checked:bg-blue-100 peer-checked:border-blue-500 transition-all duration-200">
                       <span className="text-2xl mr-3">{type.icon}</span>
-                      <span className="font-medium text-gray-700 peer-checked:text-blue-700">{type.value}</span>
+                      <span className="font-medium text-gray-700 peer-checked:text-blue-700">
+                        {type.value}
+                      </span>
                     </div>
                   </label>
                 ))}
               </div>
-              
+
               {errors.courtType && (
                 <p className="text-red-500 text-sm flex items-center">
                   <span className="w-2 h-2 bg-red-500 rounded-full mr-2"></span>
@@ -226,10 +249,12 @@ console.log('ImgBB API Key:', import.meta.env.VITE_IMGBB_API_KEY ? 'Loaded' : 'M
                 <Clock className="w-5 h-5 mr-2 text-blue-600" />
                 Available Time Slot
               </label>
-              
+
               <div className="relative">
                 <select
-                  {...register('slotTime', { required: 'Slot time is required' })}
+                  {...register("slotTime", {
+                    required: "Slot time is required",
+                  })}
                   className="w-full p-4 text-gray-700 bg-gray-50 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 appearance-none"
                 >
                   <option value="">Select a time slot</option>
@@ -241,7 +266,7 @@ console.log('ImgBB API Key:', import.meta.env.VITE_IMGBB_API_KEY ? 'Loaded' : 'M
                 </select>
                 <Clock className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
               </div>
-              
+
               {errors.slotTime && (
                 <p className="text-red-500 text-sm flex items-center">
                   <span className="w-2 h-2 bg-red-500 rounded-full mr-2"></span>
@@ -256,21 +281,24 @@ console.log('ImgBB API Key:', import.meta.env.VITE_IMGBB_API_KEY ? 'Loaded' : 'M
                 <DollarSign className="w-5 h-5 mr-2 text-blue-600" />
                 Price Per Session
               </label>
-              
+
               <div className="relative">
                 <input
                   type="number"
-                  {...register('pricePerSession', { 
-                    required: 'Price per session is required',
+                  {...register("pricePerSession", {
+                    required: "Price per session is required",
                     valueAsNumber: true,
-                    min: { value: 0, message: 'Price must be a positive number' }
+                    min: {
+                      value: 0,
+                      message: "Price must be a positive number",
+                    },
                   })}
                   placeholder="Enter session price"
                   className="w-full p-4 pl-12 text-gray-700 bg-gray-50 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                 />
                 <DollarSign className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
               </div>
-              
+
               {errors.pricePerSession && (
                 <p className="text-red-500 text-sm flex items-center">
                   <span className="w-2 h-2 bg-red-500 rounded-full mr-2"></span>
@@ -306,15 +334,21 @@ console.log('ImgBB API Key:', import.meta.env.VITE_IMGBB_API_KEY ? 'Loaded' : 'M
         <div className="grid md:grid-cols-3 gap-6 mt-8">
           <div className="bg-white p-6 rounded-2xl shadow-lg border-l-4 border-blue-500">
             <h3 className="font-bold text-gray-800 mb-2">Quick Setup</h3>
-            <p className="text-gray-600 text-sm">Create courts in under 2 minutes with our streamlined process.</p>
+            <p className="text-gray-600 text-sm">
+              Create courts in under 2 minutes with our streamlined process.
+            </p>
           </div>
           <div className="bg-white p-6 rounded-2xl shadow-lg border-l-4 border-green-500">
             <h3 className="font-bold text-gray-800 mb-2">Auto Management</h3>
-            <p className="text-gray-600 text-sm">Courts are automatically added to your booking system.</p>
+            <p className="text-gray-600 text-sm">
+              Courts are automatically added to your booking system.
+            </p>
           </div>
           <div className="bg-white p-6 rounded-2xl shadow-lg border-l-4 border-purple-500">
             <h3 className="font-bold text-gray-800 mb-2">Instant Updates</h3>
-            <p className="text-gray-600 text-sm">Changes reflect immediately across all platforms.</p>
+            <p className="text-gray-600 text-sm">
+              Changes reflect immediately across all platforms.
+            </p>
           </div>
         </div>
       </div>
