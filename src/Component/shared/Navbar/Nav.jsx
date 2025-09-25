@@ -29,7 +29,7 @@ const Nav = () => {
     <DynamicLink key={route.id} route={route} />
   ));
 
-  console.log("Nav User: ", user);
+
 
   if (loading) {
     return (
