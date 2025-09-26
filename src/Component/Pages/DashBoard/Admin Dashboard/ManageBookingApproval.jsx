@@ -121,6 +121,7 @@ const ManageBookingApproval = () => {
     // Filter bookings by status for statistics
     const pendingBookings = bookings.filter(booking => booking.status === 'pending');
     const approvedBookings = bookings.filter(booking => booking.status === 'approved');
+    const rejectedBookings = bookings.filter(booking => booking.status === 'rejected');
    
 
     return (
@@ -168,7 +169,7 @@ const ManageBookingApproval = () => {
                                     <CheckCircle className="w-8 h-8 text-green-200" />
                                 </div>
                             </div>
-                            {/* <div className="bg-gradient-to-r from-red-500 to-red-600 rounded-xl p-4 text-white">
+                            <div className="bg-gradient-to-r from-red-500 to-red-600 rounded-xl p-4 text-white">
                                 <div className="flex items-center justify-between">
                                     <div>
                                         <p className="text-red-100 text-sm">Rejected</p>
@@ -176,7 +177,7 @@ const ManageBookingApproval = () => {
                                     </div>
                                     <XCircle className="w-8 h-8 text-red-200" />
                                 </div>
-                            </div> */}
+                            </div>
                         </div>
                     </div>
                 </div>

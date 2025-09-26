@@ -7,6 +7,7 @@ import { AuthContext } from "../../Context/AuthContext";
 
 import defaultavatar from "./../../../assets/3837171.png";
 import Loading from "../Loading/Loading";
+import useRole from "../../hook/useRole";
 
 const navigationData = [
   {
@@ -23,12 +24,16 @@ const navigationData = [
 
 const Nav = () => {
   const { user, loading, signOutUser} = useContext(AuthContext);
+  const {role} = useRole();
   const [showDropdown, setShowDropdown] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+
   const links = navigationData.map((route) => (
     <DynamicLink key={route.id} route={route} />
+
   ));
 
+  console.log("Nav user ", role); 
 
 
   if (loading) {
@@ -112,7 +117,7 @@ const Nav = () => {
                       src={user.photoURL || defaultavatar}
                       alt="User Avatar"
                       className="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover"
-                      title={user.displayName || user.name || "User"}
+                      title={ user.displayName || user.name ||  "User"}
                     />
                   </div>
                 </div>
@@ -122,7 +127,7 @@ const Nav = () => {
                   <div className="absolute top-10 right-0 bg-white border border-gray-200 rounded-lg shadow-lg p-4 w-[300px] z-10">
                     <div>
                       <strong className="text-lg text-gray-700">
-                        { user.displayName  || user.name } 
+                        {role || user.displayName || user.name ||  "User" } 
                       </strong>
                     </div>
                     <hr className="my-2" />
