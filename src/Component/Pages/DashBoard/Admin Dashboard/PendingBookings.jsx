@@ -156,7 +156,7 @@ const PendingBookings = () => {
             {filteredBookings.map((booking) => (
               <div key={booking._id} className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
                 <div className="p-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 items-center">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-40 items-center">
                     
                     {/* User Info */}
                     <div className="flex items-center space-x-3">
@@ -164,7 +164,7 @@ const PendingBookings = () => {
                         <FaUser className="text-slate-600" />
                       </div>
                       <div>
-                        <p className="text-sm text-slate-500">Customer</p>
+                        <p className="text-sm text-slate-500">Name</p>
                         <p className="font-medium text-slate-800 truncate">{booking.userEmail}</p>
                       </div>
                     </div>
@@ -176,7 +176,7 @@ const PendingBookings = () => {
                       </div>
                       <div>
                         <p className="text-sm text-slate-500">Court Type</p>
-                        <p className="font-medium text-slate-800">{booking.courtType}</p>
+                        <p className="font-medium text-slate-800">{booking.courtName}</p>
                       </div>
                     </div>
 
