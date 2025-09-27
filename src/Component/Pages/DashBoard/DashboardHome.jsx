@@ -7,7 +7,7 @@ import useRole from "../../hook/useRole";
 
 export const DashboardHome = () => {
   const {role, loading }= useRole();
-console.log(" dashboard role:", role);
+
 
 if (loading) {
   return <div className="text-red-700 text-xl">Loading...</div>;
