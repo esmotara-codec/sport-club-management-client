@@ -14,6 +14,9 @@ import PublicCourtsPage from "../Pages/CourtPage/PublicCourtsPage";
 import OthersProfile from "../Pages/DashBoard/Profile/OthersProfile";
 import PendingBookings from "../Pages/DashBoard/Admin Dashboard/PendingBookings";
 import Announcements from "../Pages/Announcements/Announcements";
+import ApprovedBookings from "../Pages/DashBoard/MemberDashboard/ApprovedBookings";
+import Payment from "../Pages/Payment/Payment";
+import ConfirmedBookings from "../Pages/DashBoard/MemberDashboard/ConfirmedBookings";
 
 const routes = createBrowserRouter([
   {
@@ -63,6 +66,18 @@ const routes = createBrowserRouter([
       {
         path: "announcements",
         element: <Announcements/>,
+      },
+      {
+        path: "approved-bookings",
+        element: <ApprovedBookings/>,
+      },
+      {
+        path: "payment/:id",
+        element: <Payment/>,
+      },
+      {
+        path: "confirmed-bookings",
+        element: <ConfirmedBookings/>,
       },
     ],
     // [

@@ -17,23 +17,19 @@ const adminSidebarItems = [
 ];
 
 const memberSidebarItems = [
-  { id: 'insights', name: "Insights", path: '/dashboard/member', icon: <LayoutDashboard className="size-5" />, category: "Overview" },
-  { id: 'my-bookings', name: "My Bookings", path: '/dashboard/my-bookings', icon: <Calendar className="size-5" />, category: "Bookings" },
+  // { id: 'insights', name: "Insights", path: '/dashboard/member', icon: <LayoutDashboard className="size-5" />, category: "Overview" },
   { id: 'pending-bookings', name: "Pending Bookings", path: '/dashboard/pending-bookings', icon: <Crown className="size-5" />, category: "Bookings" },
   { id: 'approved-bookings', name: "Approved Bookings", path: '/dashboard/approved-bookings', icon: <Crown className="size-5" />, category: "Bookings" },
   { id: 'confirmed-bookings', name: "Confirmed Bookings", path: '/dashboard/confirmed-bookings', icon: <Crown className="size-5" />, category: "Bookings" },
   { id: 'payment-history', name: "Payment History", path: '/dashboard/payment-history', icon: <CreditCard className="size-5" />, category: "Finance" },
   { id: 'announcements', name: "Announcements", path: '/dashboard/announcements', icon: <Bell className="size-5" />, category: "Communication" },
-  { id: 'announcements', name: "Announcements", path: '/dashboard/announcements', icon: <Bell className="size-5" />, category: "Communication" },
   { id: 'profile', name: "Profile", path: '/dashboard/profile', icon: <User2 className="size-5" />, category: "Account" },
 ];
 
 const userSidebarItems = [
-  { id: 'insights', name: "Insights", path: '/dashboard/user', icon: <LayoutDashboard className="size-5" />, category: "Overview" },
-  { id: 'my-bookings', name: "My Bookings", path: '/dashboard/my-bookings', icon: <Calendar className="size-5" />, category: "Bookings" },
+  // { id: 'insights', name: "Insights", path: '/dashboard/user', icon: <LayoutDashboard className="size-5" />, category: "Overview" },
   { id: 'pending-bookings', name: "Pending Bookings", path: '/dashboard/pending-bookings', icon: <Crown className="size-5" />, category: "Bookings" },
   { id: 'announcements', name: "Announcements", path: '/dashboard/announcements', icon: <Bell className="size-5" />, category: "Communication" },
-  { id: 'become-member', name: "Become a Member", path: '/dashboard/become-member', icon: <UserRound className="size-5" />, category: "Upgrade" },
   { id: 'profile', name: "Profile", path: '/dashboard/profile', icon: <User2 className="size-5" />, category: "Account" },
 ];
 
