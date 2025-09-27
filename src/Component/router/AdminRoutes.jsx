@@ -8,6 +8,7 @@ import MakeAnnouncement from "../Pages/DashBoard/Admin Dashboard/MakeAnnouncemen
 import AdminProfile from "../Pages/DashBoard/Profile/AdminProfile";
 import CreateCourt from "../Pages/DashBoard/Admin Dashboard/CreateCourt";
 import ManageBookingApproval from "../Pages/DashBoard/Admin Dashboard/ManageBookingApproval";
+import PendingBookings from "../Pages/DashBoard/Admin Dashboard/PendingBookings";
 
 export const AdminRoutes = [
   {
@@ -26,6 +27,7 @@ export const AdminRoutes = [
     path: "manage-bookings",
     element: <ManageBookings />,
   },
+
   {
     path: "manage-bookings-approval",
     element: <ManageBookingApproval />,

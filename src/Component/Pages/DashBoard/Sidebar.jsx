@@ -24,6 +24,7 @@ const memberSidebarItems = [
   { id: 'confirmed-bookings', name: "Confirmed Bookings", path: '/dashboard/confirmed-bookings', icon: <Crown className="size-5" />, category: "Bookings" },
   { id: 'payment-history', name: "Payment History", path: '/dashboard/payment-history', icon: <CreditCard className="size-5" />, category: "Finance" },
   { id: 'announcements', name: "Announcements", path: '/dashboard/announcements', icon: <Bell className="size-5" />, category: "Communication" },
+  { id: 'announcements', name: "Announcements", path: '/dashboard/announcements', icon: <Bell className="size-5" />, category: "Communication" },
   { id: 'profile', name: "Profile", path: '/dashboard/profile', icon: <User2 className="size-5" />, category: "Account" },
 ];
 
