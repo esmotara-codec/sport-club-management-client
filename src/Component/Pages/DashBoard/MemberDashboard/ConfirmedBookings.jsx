@@ -25,7 +25,7 @@ const ConfirmedBookings = () => {
   };
 
   const filteredBookings = confirmedBookings.filter(booking =>
-    booking.courtType.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    booking.courtName.toLowerCase().includes(searchTerm.toLowerCase()) ||
     booking.status.toLowerCase().includes(searchTerm.toLowerCase())
   );
 

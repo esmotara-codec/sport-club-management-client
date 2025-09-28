@@ -18,13 +18,17 @@ const ApprovedBookings = () => {
     try {
       setLoading(true);
       const { data } = await axiosSecure.get('/approved-bookings');
+      console.log("Approved Boking data", data);
       setApprovedBookings(data);
+     
     } catch (error) {
       console.error('Error fetching approved bookings:', error);
     } finally {
       setLoading(false);
     }
   };
+
+   console.log("Approved Boking state", approvedBookings);
 
   const handleCancelBooking = async (bookingId) => {
     try {
@@ -70,7 +74,7 @@ const ApprovedBookings = () => {
   };
 
   const filteredBookings = approvedBookings.filter(booking =>
-    booking.courtType?.toLowerCase().includes(searchTerm.toLowerCase())
+    booking.courtName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const formatDateTime = (dateTime) => {
