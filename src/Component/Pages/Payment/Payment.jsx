@@ -1,32 +1,34 @@
-import React, { useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
-import useAxiosSecure from '../../hook/asioxSecure';
+
+import { useLocation } from "react-router-dom";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import CheckoutForm from "./CheckoutForm";
+import { Helmet } from "react-helmet-async";
+
+const stripePromise = loadStripe(import.meta.env.VITE_Payment_Gateway_PK);
 
 const Payment = () => {
-  const { id } = useParams();
-  const axiosSecure = useAxiosSecure();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    handlePayment();
-  }, []);
-
-  const handlePayment = async () => {
-    try {
-      await axiosSecure.post(`/bookings/payment/${id}`);
-      Swal.fire('Payment Successful!', 'Your booking has been confirmed.', 'success');
-      navigate('/dashboard/confirmed-bookings');
-    } catch (error) {
-      console.error('Error processing payment:', error);
-      Swal.fire('Payment Failed!', 'There was an error processing your payment.', 'error');
-      navigate('/dashboard/approved-bookings');
-    }
-  };
+  const location = useLocation();
+  const { court, selectedDate, selectedTime, price } = location.state || {};
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Processing Payment...</h1>
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+      <Helmet>
+        <title>Payment</title>
+      </Helmet>
+      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
+        <h1 className="text-2xl font-bold text-center text-gray-800">
+          Complete Your Payment
+        </h1>
+        <Elements stripe={stripePromise}>
+          <CheckoutForm
+            court={court}
+            selectedDate={selectedDate}
+            selectedTime={selectedTime}
+            price={price}
+          />
+        </Elements>
+      </div>
     </div>
   );
 };

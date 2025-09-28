@@ -72,7 +72,7 @@ const routes = createBrowserRouter([
         element: <ApprovedBookings/>,
       },
       {
-        path: "payment/:id",
+        path: "payment",
         element: <Payment/>,
       },
       {

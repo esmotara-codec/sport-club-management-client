@@ -178,6 +178,18 @@ const ApprovedBookings = () => {
                       </div>
                     </div>
 
+                    {/* Slot Date */}
+                    <div className="flex items-center space-x-3">
+                      <div className="bg-slate-100 p-2 rounded-lg">
+                        <FaClock className="text-slate-600" />
+                      </div>
+                      <div>
+                        <p className="text-sm text-slate-500">Scheduled date</p>
+                        <p className="font-medium text-slate-800">{formatDateTime(booking.date)}</p>
+                      </div>
+                    </div>
+
+
                     {/* Slot Time */}
                     <div className="flex items-center space-x-3">
                       <div className="bg-slate-100 p-2 rounded-lg">
@@ -188,6 +200,7 @@ const ApprovedBookings = () => {
                         <p className="font-medium text-slate-800">{formatDateTime(booking.time)}</p>
                       </div>
                     </div>
+
 
                     {/* Price */}
                     <div className="flex items-center space-x-3">
@@ -202,7 +215,16 @@ const ApprovedBookings = () => {
 
                     {/* Actions */}
                     <div className="flex flex-col sm:flex-row gap-2 justify-end">
-                      <Link to={`/dashboard/payment/${booking._id}`}>
+                      <Link to={`/dashboard/payment`}
+                        state={{
+                          court: {
+                            _id: booking.courtId,
+                            name: booking.courtName,
+                          },
+                          selectedDate: new Date(booking.date).toLocaleDateString(),
+                          selectedTime: new Date(booking.time).toLocaleTimeString(),
+                          price: booking.totalPrice,
+                        }}>
                         <button className="group bg-emerald-50 hover:bg-emerald-100 text-emerald-600 hover:text-emerald-700 font-medium py-2 px-4 rounded-lg transition-all duration-200 flex items-center space-x-2 w-full sm:w-auto">
                           <FaCreditCard className="group-hover:scale-110 transition-transform duration-200" />
                           <span>Pay Now</span>

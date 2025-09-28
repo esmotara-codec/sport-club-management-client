@@ -55,11 +55,7 @@ const ConfirmedBookings = () => {
     }
   };
 
-  const handleDownloadReceipt = (bookingId) => {
-    // Placeholder for download functionality
-    console.log('Downloading receipt for booking:', bookingId);
-  };
-
+  
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-gray-50 p-6">
@@ -170,7 +166,7 @@ const ConfirmedBookings = () => {
                       </div>
                       <div>
                         <p className="text-sm text-slate-500">Court Type</p>
-                        <p className="font-medium text-slate-800">{booking.courtType}</p>
+                        <p className="font-medium text-slate-800">{booking.courtName}</p>
                       </div>
                     </div>
 
@@ -209,16 +205,7 @@ const ConfirmedBookings = () => {
                       </div>
                     </div>
 
-                    {/* Actions */}
-                    <div className="flex justify-end">
-                      <button
-                        onClick={() => handleDownloadReceipt(booking._id)}
-                        className="group bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-slate-700 font-medium py-2 px-4 rounded-lg transition-all duration-200 flex items-center space-x-2"
-                      >
-                        <FaDownload className="group-hover:scale-110 transition-transform duration-200" />
-                        <span>Receipt</span>
-                      </button>
-                    </div>
+                   
 
                   </div>
                 </div>
