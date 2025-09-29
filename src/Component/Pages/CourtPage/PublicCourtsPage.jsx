@@ -143,7 +143,7 @@ const PublicCourtsPage = () => {
                                             <div className="flex items-center">
                                                 <DollarSign className="w-4 h-4 text-green-500" />
                                                 <span className="text-2xl font-bold text-green-600">{court.pricePerSession}</span>
-                                                <span className="text-gray-500 ml-1">/ session</span>
+                                                <span className="text-gray-500 ml-1">per session</span>
                                             </div>
                                         </div>
 
