@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 const adminSidebarItems = [
   { id: 'insights', name: "Insights", path: '/dashboard/admin', icon: <LayoutDashboard className="size-5" />, category: "Overview" },
   { id: 'manage-booking-approval', name: "Manage booking approval", path: '/dashboard/manage-bookings-approval', icon: <Calendar className="size-5" />, category: "Management" },
-  { id: 'all-users', name: "All Users", path: '/dashboard/all-users', icon: <Users className="size-5" />, category: "Management" },
+  { id: 'all-users', name: "All Users", path: '/dashboard/manage-users', icon: <Users className="size-5" />, category: "Management" },
   { id: 'manage-members', name: "Manage Members", path: '/dashboard/manage-members', icon: <Crown className="size-5" />, category: "Management" },
   { id: 'manage-courts', name: "Manage Courts", path: '/dashboard/manage-courts', icon: <Target className="size-5" />, category: "Management" },
   { id: 'manage-bookings', name: "Manage bookings", path: '/dashboard/manage-bookings', icon: <Calendar className="size-5" />, category: "Management" },

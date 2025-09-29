@@ -17,6 +17,7 @@ import Announcements from "../Pages/Announcements/Announcements";
 import ApprovedBookings from "../Pages/DashBoard/MemberDashboard/ApprovedBookings";
 import Payment from "../Pages/Payment/Payment";
 import ConfirmedBookings from "../Pages/DashBoard/MemberDashboard/ConfirmedBookings";
+import ManageUsers from "../Pages/DashBoard/Admin Dashboard/ManageUsers";
 
 const routes = createBrowserRouter([
   {
@@ -51,6 +52,14 @@ const routes = createBrowserRouter([
     ),
     children: [
       ...AdminRoutes,
+      {
+        path: "manage-users",
+        element: (
+          <PrivateRoute>
+            <ManageUsers />
+          </PrivateRoute>
+        ),
+      },
       {
         path: "profile",
         element: (
