@@ -36,7 +36,7 @@ export default function PromotionsSection() {
   }
 
   return (
-    <section className="bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 py-12 px-6 my-12 rounded-2xl shadow-xl">
+    <section className="bg-gradient-to-r from-blue-400 via-blue-500 to-purple-500 py-12 px-6 my-12 rounded-2xl shadow-xl">
       {/* Heading */}
       <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-8 drop-shadow-lg">
         🎉 Special Promotions & Discount Coupons
