@@ -1,61 +1,69 @@
 import { useEffect, useState } from "react";
-import { createUserWithEmailAndPassword,  onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut} from "firebase/auth";
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 import { AuthContext } from "./AuthContext";
 import { auth } from "../firebase/firebase.init";
 import useAxiosPublic from "../hook/useAxiosPublic";
 
 const AuthProvider = ({ children }) => {
-    const [user , setUser ] = useState(null);
+    const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [isSigningUp, setIsSigningUp] = useState(false); // Add this state
     const axiosPublic = useAxiosPublic();
 
     const createUser = (email, password) => {
-        
+        setIsSigningUp(true); // Set signing up flag
         return createUserWithEmailAndPassword(auth, email, password);
-
     }
 
-    const signInWithGoogle = (provider) => {   
+    const signInWithGoogle = (provider) => {
         return signInWithPopup(auth, provider);
     }
 
-    const  loginWithPassword =(email, password) => {
-        // setLoading(true);
-        return signInWithEmailAndPassword(auth, email , password);
+    const loginWithPassword = (email, password) => {
+        setLoading(true);
+        return signInWithEmailAndPassword(auth, email, password);
     }
 
-   const signOutUser = () => {
-       setLoading(true);
-       setUser(null);
-    return signOut(auth);
-   }
-
+    const signOutUser = () => {
+        setLoading(true);
+        setUser(null);
+        setIsSigningUp(false); // Reset signing up flag
+        return signOut(auth);
+    }
 
     useEffect(() => {
-        const unSubscribe =onAuthStateChanged(auth , currentUser => {
-            // console.log('Current User inside useEffect on auth state change ', currentUser);
-              if (currentUser) {
-                axiosPublic.post('/add-user', {
-                    email: currentUser.email,
-                    role: "user",
-                    loginCount: 1,
-                }).then((res) => {
-                    setUser(currentUser);
-                    console.log(res.data);
-                    setLoading(false);
-                });
+        const unSubscribe = onAuthStateChanged(auth, async (currentUser) => {
+            // If we're in the middle of sign-up process, don't auto-set user
+            if (isSigningUp) {
+                console.log('Sign-up in progress, skipping auto-auth');
+                setLoading(false);
+                return;
             }
-            else{
+
+            if (currentUser) {
+                try {
+                    const res = await axiosPublic.post('/add-user', {
+                        email: currentUser.email,
+                        role: "user",
+                        loginCount: 1,
+                    });
+                    console.log(res.data);
+                    setUser(currentUser);
+                } catch (error) {
+                    console.error('Error updating user in database:', error);
+                    setUser(currentUser); // Still set user even if DB update fails
+                }
+                setLoading(false);
+            } else {
                 setUser(null);
                 setLoading(false);
             }
-            
-        })
+        });
+
         return () => {
             unSubscribe();
-        }
-    }, [ axiosPublic])
-
+        };
+    }, [axiosPublic, isSigningUp]); // Add isSigningUp to dependencies
 
     const userInfo = {
         user,
@@ -65,10 +73,11 @@ const AuthProvider = ({ children }) => {
         signInWithGoogle,
         loginWithPassword,
         signOutUser,
+        setIsSigningUp, // Expose this to components
     }
 
     return (
-        <AuthContext value={userInfo}>
+        <AuthContext value={userInfo}> 
             {children}
         </AuthContext>
     );

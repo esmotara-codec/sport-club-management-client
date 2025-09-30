@@ -9,131 +9,134 @@ import { auth } from "../../firebase/firebase.init";
 
 function SignUp() {
   const navigate = useNavigate();
-  const { createUser , signOutUser ,  setUser} = useContext(AuthContext);
+  const { createUser , signOutUser , setIsSigningUp} = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const axiosPublic = useAxiosPublic();
 
-  
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
 
-  
-  //   const form = e.target;
-  //   const formData = new FormData(form);
-  //   const { name, email, password, ...rest } = Object.fromEntries(formData.entries());
-  
+//   const handleSubmit = async (e) => {
+//   e.preventDefault();
+
+//   const form = e.target;
+//   const formData = new FormData(form);
+//   const { name, email, password, ...rest } = Object.fromEntries(formData.entries());
+
+//   // Password validation
+//   const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
+//   if (!passwordRegex.test(password)) {
+//     Swal.fire({
+//       position: "center",
+//       icon: "error",
+//       title: "Password must be at least 6 characters long, contain at least one uppercase letter, one lowercase letter, and one number.",
+//       showConfirmButton: true,
+//       confirmButtonText: "OK",
+//     });
+//     return;
+//   }
+
+//   try {
+//     setIsLoading(true);
     
-  //   // Password validation
-  //   const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
-  //   if (!passwordRegex.test(password)) {
-  //     Swal.fire({
-  //       position: "center",
-  //       icon: "error",
-  //       title: "Password must be at least 6 characters long, contain at least one uppercase letter, one lowercase letter, and one number.",
-  //       showConfirmButton: true,
-  //       confirmButtonText: "OK",
-  //     });
-  //     return;
-  //   }
-  
-  //   try {
-  //     // setIsLoading(true);
+//     // Check if user might exist first (optional - you can remove this)
+//     console.log("Creating user with Firebase...");
+//     const result = await createUser(email, password);
+//     console.log("Firebase user created:", result.user);
+
+//     // Update Profile
+//     await updateProfile(auth.currentUser, { displayName: name });
+
+//     const userProfile = {
+//       name,
+//       email,
+//       ...rest,
+//       role: "user",
+//       creationTime: result.user?.metadata?.creationTime,
+//       lastSignInTime: result.user?.metadata?.lastSignInTime
+//     };
+
+//     console.log("Saving to database...");
+//     const res = await axiosPublic.post('/add-user', userProfile);
+//     console.log("Database response:", res.data);
+
+//     // UPDATED: Handle different response types
+//     if (res.data.insertedId || res.data.isNewUser) {
+//       // New user created successfully
+//       console.log('New user created successfully');
       
-  //     // Create User with Firebase
-  //     console.log("Creating user with Firebase...");
-  //     const result = await createUser(email, password);
-  //     console.log("Firebase user created:", result.user);
-
-  //     //Update Profile
-  //     await updateProfile(auth.currentUser, { displayName: name });
-
-
-  //     const userProfile = {
-  //       name,
-  //       email,
-  //       ...rest,
-  //       role: "user",
-  //       creationTime: result.user?.metadata?.creationTime,
-  //       lastSignInTime: result.user?.metadata?.lastSignInTime
-  //     };
-
-  //     console.log("User profile to save:", userProfile);
-
-  //     // Save profile info in the db
-  //     console.log("Saving to database...");
-  //     const res = await axiosPublic.post('/add-user', userProfile);
-  //     console.log("Database response:", res);
-  //     console.log("Database response data:", res.data);
+//       signOutUser().then(() => {
+//         setUser(null);
+//         Swal.fire({
+//           position: "center",
+//           icon: "success",
+//           title: "Your account has been created successfully",
+//           showConfirmButton: false,
+//           timer: 1500
+//         });
+//         navigate("/login");
+//       });
       
-
-  //     // Check for successful insertion or existing user
-  //     if (res.data.insertedId) {
-  //       console.log('User successfully processed in database');
-  //       setIsLoading(false);
-
-  //       signOutUser().then(() => {
-  //          setUser(null);
-  //         Swal.fire({
-  //           position: "center",
-  //           icon: "success",
-  //           title: "Your account has been created successfully",
-  //           showConfirmButton: false,
-  //           timer: 1500
-  //       });
-  //       navigate("/login");
-  //       console.log("first log out");
-
-  //       })
-        
-
-  //     } 
-  //     else if (res.data.msg === "user already exist") {
-  //       console.log('User successfully processed in database');
-  //       setIsLoading(false);
-        
-  //       Swal.fire({
-  //         position: "center",
-  //         icon: "warning",
-  //         title: "Account already exists",
-  //         text: "Please login with your existing account",
-  //         showConfirmButton: true,
-  //         confirmButtonText: "Go to Login"
-  //       });
-  //       navigate("/login");
-  //     }
-  //     else {
-  //       throw new Error("Unexpected response from server");
-  //     }
+//     } else if (res.data.updated || res.data.msg === "user updated successfully") {
+//       // Existing user updated
+//       console.log('Existing user updated');
       
-  //   } catch (error) {
-  //     console.error("Full error object:", error);
-  //     console.error("Error message:", error.message);
-  //     console.error("Error response:", error.response);
+//       Swal.fire({
+//         position: "center",
+//         icon: "info",
+//         title: "Welcome back!",
+//         text: "Your account information has been updated",
+//         showConfirmButton: false,
+//         timer: 1500
+//       });
+//       navigate("/"); // Or wherever you want to redirect existing users
       
-  //     setIsLoading(false);
+//     } else if (res.data.msg === "user already exist") {
+//       // Legacy response handling
+//       console.log('User already exists');
       
-  //     let title = "Signup Failed";
-  //     let text = "An error occurred during signup. Please try again.";
+//       Swal.fire({
+//         position: "center",
+//         icon: "warning",
+//         title: "Account already exists",
+//         text: "Please login with your existing account",
+//         showConfirmButton: true,
+//         confirmButtonText: "Go to Login"
+//       });
+//       navigate("/login");
+//     } else {
+//       throw new Error("Unexpected response from server");
+//     }
+    
+//   } catch (error) {
+//     console.error("Full error object:", error);
+//     console.error("Error message:", error.message);
+//     console.error("Error response:", error.response);
+    
+//     setIsLoading(false);
+    
+//     let title = "Signup Failed";
+//     let text = "An error occurred during signup. Please try again.";
 
-  //     if (error.code === 'auth/email-already-in-use') {
-  //       title = "Account already exists";
-  //       text = "Please login with your existing account";
-  //     }
+//     if (error.code === 'auth/email-already-in-use') {
+//       title = "Account already exists";
+//       text = "Please login with your existing account";
+//     }
 
-  //     Swal.fire({
-  //       position: "center",
-  //       icon: "error",
-  //       title: title,
-  //       text: text,
-  //       showConfirmButton: true,
-  //       confirmButtonText: "OK"
-  //     });
-  //   }
-  // };
+//     Swal.fire({
+//       position: "center",
+//       icon: "error",
+//       title: title,
+//       text: text,
+//       showConfirmButton: true,
+//       confirmButtonText: "OK"
+//     });
+//   } finally {
+//     setIsLoading(false);
+//   }
+// };  
 
 
-  const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
   e.preventDefault();
 
   const form = e.target;
@@ -156,12 +159,12 @@ function SignUp() {
   try {
     setIsLoading(true);
     
-    // Check if user might exist first (optional - you can remove this)
+    // Create user with Firebase
     console.log("Creating user with Firebase...");
     const result = await createUser(email, password);
     console.log("Firebase user created:", result.user);
 
-    // Update Profile
+    // Update profile
     await updateProfile(auth.currentUser, { displayName: name });
 
     const userProfile = {
@@ -177,40 +180,32 @@ function SignUp() {
     const res = await axiosPublic.post('/add-user', userProfile);
     console.log("Database response:", res.data);
 
-    // UPDATED: Handle different response types
     if (res.data.insertedId || res.data.isNewUser) {
-      // New user created successfully
       console.log('New user created successfully');
       
-      signOutUser().then(() => {
-        setUser(null);
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Your account has been created successfully",
-          showConfirmButton: false,
-          timer: 1500
-        });
-        navigate("/login");
-      });
+      // Sign out user
+      await signOutUser();
       
-    } else if (res.data.updated || res.data.msg === "user updated successfully") {
-      // Existing user updated
-      console.log('Existing user updated');
+      // Reset the signing up flag
+      setIsSigningUp(false);
+      
+      console.log("User signed out successfully");
       
       Swal.fire({
         position: "center",
-        icon: "info",
-        title: "Welcome back!",
-        text: "Your account information has been updated",
+        icon: "success",
+        title: "Your account has been created successfully",
         showConfirmButton: false,
         timer: 1500
       });
-      navigate("/"); // Or wherever you want to redirect existing users
+      
+      navigate("/login");
       
     } else if (res.data.msg === "user already exist") {
-      // Legacy response handling
       console.log('User already exists');
+      
+      await signOutUser();
+      setIsSigningUp(false);
       
       Swal.fire({
         position: "center",
@@ -226,11 +221,10 @@ function SignUp() {
     }
     
   } catch (error) {
-    console.error("Full error object:", error);
-    console.error("Error message:", error.message);
-    console.error("Error response:", error.response);
+    console.error("Signup error:", error);
     
-    setIsLoading(false);
+    // Reset signing up flag on error
+    setIsSigningUp(false);
     
     let title = "Signup Failed";
     let text = "An error occurred during signup. Please try again.";
@@ -251,8 +245,7 @@ function SignUp() {
   } finally {
     setIsLoading(false);
   }
-};  
-
+};
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-primary p-4 sm:p-6 lg:p-8">
