@@ -7,11 +7,11 @@ import useAxiosPublic from "../hook/useAxiosPublic";
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [isSigningUp, setIsSigningUp] = useState(false); // Add this state
+    const [isSigningUp, setIsSigningUp] = useState(false); 
     const axiosPublic = useAxiosPublic();
 
     const createUser = (email, password) => {
-        setIsSigningUp(true); // Set signing up flag
+        setIsSigningUp(true); 
         return createUserWithEmailAndPassword(auth, email, password);
     }
 
@@ -27,13 +27,13 @@ const AuthProvider = ({ children }) => {
     const signOutUser = () => {
         setLoading(true);
         setUser(null);
-        setIsSigningUp(false); // Reset signing up flag
+        setIsSigningUp(false); 
         return signOut(auth);
     }
 
     useEffect(() => {
         const unSubscribe = onAuthStateChanged(auth, async (currentUser) => {
-            // If we're in the middle of sign-up process, don't auto-set user
+            // IPrevent AuthProvider from auto-set user
             if (isSigningUp) {
                 console.log('Sign-up in progress, skipping auto-auth');
                 setLoading(false);
@@ -51,7 +51,7 @@ const AuthProvider = ({ children }) => {
                     setUser(currentUser);
                 } catch (error) {
                     console.error('Error updating user in database:', error);
-                    setUser(currentUser); // Still set user even if DB update fails
+                    setUser(currentUser); 
                 }
                 setLoading(false);
             } else {
@@ -63,7 +63,7 @@ const AuthProvider = ({ children }) => {
         return () => {
             unSubscribe();
         };
-    }, [axiosPublic, isSigningUp]); // Add isSigningUp to dependencies
+    }, [axiosPublic, isSigningUp]); 
 
     const userInfo = {
         user,
@@ -73,7 +73,7 @@ const AuthProvider = ({ children }) => {
         signInWithGoogle,
         loginWithPassword,
         signOutUser,
-        setIsSigningUp, // Expose this to components
+        setIsSigningUp, 
     }
 
     return (
