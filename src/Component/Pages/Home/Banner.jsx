@@ -72,8 +72,7 @@ const Banner = () => {
     const handleButtonClick = (link) => {
         // If using React Router:
         navigate(link);
-        // If not using React Router:
-        // window.location.href = link;
+        
     };
 
     return (
