@@ -23,18 +23,16 @@ const navigationData = [
 ];
 
 const Nav = () => {
-  const { user, loading, signOutUser} = useContext(AuthContext);
-  const {role} = useRole();
+  const { user, loading, signOutUser } = useContext(AuthContext);
+  const { role } = useRole();
   const [showDropdown, setShowDropdown] = useState(false);
-   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const links = navigationData.map((route) => (
     <DynamicLink key={route.id} route={route} />
-
   ));
 
-  console.log("Nav user ", role); 
-
+  console.log("Nav user ", role);
 
   if (loading) {
     return (
@@ -48,9 +46,8 @@ const Nav = () => {
     signOutUser()
       .then(() => {
         console.log("Sign out successfully");
-
       })
-      
+
       .catch((error) => {
         console.log(error);
       });
@@ -62,7 +59,6 @@ const Nav = () => {
         <nav className="flex items-center justify-between py-2">
           {/* Left Section: Mobile Menu + Logo */}
           <div className="flex items-center gap-3">
-          
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2">
               {/* <img
@@ -72,8 +68,8 @@ const Nav = () => {
               /> */}
 
               <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-              <Trophy className="size-6 text-white" />
-            </div>
+                <Trophy className="size-6 text-white" />
+              </div>
               <h1 className="text-2xl font-bold text-gray-800">
                 Sport<span className="text-blue-400">Club</span>
               </h1>
@@ -109,7 +105,7 @@ const Nav = () => {
                       src={user.photoURL || defaultavatar}
                       alt="User Avatar"
                       className="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover"
-                      title={ user.displayName || user.name ||  "User"}
+                      title={user.displayName || user.name || "User"}
                     />
                   </div>
                 </div>
@@ -119,7 +115,7 @@ const Nav = () => {
                   <div className="absolute top-10 right-0 bg-white border border-gray-200 rounded-lg shadow-lg p-4 w-[300px] z-10">
                     <div>
                       <strong className="text-lg text-gray-700">
-                        {role || user.displayName || user.name ||  "User" } 
+                        {role || user.displayName || user.name || "User"}
                       </strong>
                     </div>
                     <hr className="my-2" />
@@ -130,21 +126,20 @@ const Nav = () => {
                     </div>
                     <hr className="my-2" />
                     <div className="mb-3">
-                      <button 
-                      onClick={() => handleSignOut()}
-                      className="text-gray-700">
+                      <button
+                        onClick={() => handleSignOut()}
+                        className="text-gray-700"
+                      >
                         Logout
-                        </button>
+                      </button>
                     </div>
-
-                  
                   </div>
                 )}
               </div>
             )}
           </div>
 
-           {/* Mobile Menu Button */}
+          {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="lg:hidden z-50 p-2"
@@ -168,7 +163,7 @@ const Nav = () => {
               ></span>
             </div>
           </button>
-          
+
           {/* Mobile Menu Drawer */}
           {isMenuOpen && (
             <div className="lg:hidden fixed inset-0 z-100">
@@ -187,20 +182,20 @@ const Nav = () => {
                 {/* Header */}
                 <div className="flex items-center justify-between p-4 border-b border-gray-200">
                   {/* Logo */}
-                   <Link to="/" className="flex items-center gap-2">
-              {/* <img
+                  <Link to="/" className="flex items-center gap-2">
+                    {/* <img
                 src={logo}
                 alt="sportclub-Logo"
                 className="w-10 h-10 md:w-12 md:h-12 object-cover"
               /> */}
 
-              <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-              <Trophy className="size-6 text-white" />
-            </div>
-              <h1 className="text-2xl font-bold text-gray-800">
-                Sport<span className="text-blue-400">Club</span>
-              </h1>
-            </Link>
+                    <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                      <Trophy className="size-6 text-white" />
+                    </div>
+                    <h1 className="text-2xl font-bold text-gray-800">
+                      Sport<span className="text-blue-400">Club</span>
+                    </h1>
+                  </Link>
                   <button
                     onClick={() => setIsMenuOpen(false)}
                     className="p-2 rounded-full text-gray-600 hover:bg-gray-100"
@@ -210,22 +205,65 @@ const Nav = () => {
                   </button>
                 </div>
 
+                {/* User Section */}
+                <div className="p-1 py-2">
+                  {loading ? null : !user ? (
+                    <div className="flex justify-center pt-4">
+                      <Link to="/login">
+                        <button className="bg-primary text-white px-4 py-6 rounded-full text-sm font-medium hover:bg-[#0e7aa8] transition-colors cursor-pointer">
+                          Login
+                        </button>
+                      </Link>
+                    </div>
+                  ) : (
+                    <div className="relative cursor-pointer flex justify-center pt-4">
+                      <Link to="/profile">
+                        <img
+                          src={user.photoURL || defaultavatar}
+                          alt="User Avatar"
+                          className="w-12 h-12 md:w-10 md:h-10  rounded-full object-cover"
+                          title={user.displayName || user.name || "User"}
+                        />
+                      </Link>
+                    </div>
+                  )}
+                </div>
+
                 {/* Menu Content */}
                 <div className="flex flex-col h-full overflow-y-auto py-4">
-                  <div className="pt-4 ">{links}</div>
-            <div className="p-1 py-2">
-              <Link to="/login">
-                <button className="text-[#108ac2] px-4 py-2 rounded-lg text-sm font-semibold hover:bg-[#0e7aa8] transition-colors">
-                  Login
-                </button>
-              </Link>
-            </div>
+                  <div className="pt-2 ">{links}</div>
+                  {user && (
+                    <div className="pt-2">
+                      <div className="px-2">
+                        <Link to="/dashboard">
+                        <button
+                          onClick={() => {
+                              setIsMenuOpen(false);
+                          }}
+                          className=" text-[#108ac2] font-normal py-2 px-3 "
+                        >
+                          Dashboard
+                        </button>
+                     
+                        </Link>
+                      </div>
+                    <div className="p-4">
+                      <button
+                        onClick={() => {
+                          setIsMenuOpen(false);
+                          handleSignOut();
+                        }}
+                        className=" w-full btn border border-none bg-primary text-white  text-base  font-normal py-2 px-3 rounded-lg transition-colors"
+                      >
+                        Sign Out
+                      </button>
+                    </div>
+                     </div>
+                  )}
                 </div>
               </div>
             </div>
           )}
-
-         
         </nav>
       </Container>
     </div>
