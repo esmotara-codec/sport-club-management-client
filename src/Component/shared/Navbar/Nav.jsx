@@ -26,7 +26,7 @@ const Nav = () => {
   const { user, loading, signOutUser} = useContext(AuthContext);
   const {role} = useRole();
   const [showDropdown, setShowDropdown] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const links = navigationData.map((route) => (
     <DynamicLink key={route.id} route={route} />
@@ -62,15 +62,7 @@ const Nav = () => {
         <nav className="flex items-center justify-between py-2">
           {/* Left Section: Mobile Menu + Logo */}
           <div className="flex items-center gap-3">
-            {/* Mobile Menu Toggle */}
-            <div className="lg:hidden" onClick={() => setMenuOpen(!menuOpen)}>
-              {menuOpen ? (
-                <X className="text-primary cursor-pointer" size={24} />
-              ) : (
-                <Menu className="text-primary cursor-pointer" size={24} />
-              )}
-            </div>
-
+          
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2">
               {/* <img
@@ -152,21 +144,88 @@ const Nav = () => {
             )}
           </div>
 
-          {/* Mobile Navigation Menu */}
-          <ul
-            className={`lg:hidden absolute top-full left-0 right-0 bg-primary text-white font-semibold shadow-lg z-50 transition-all duration-300 ${
-              menuOpen ? "opacity-100 visible" : "opacity-0 invisible"
-            }`}
+           {/* Mobile Menu Button */}
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="lg:hidden z-50 p-2"
+            aria-label="Toggle menu"
           >
-            <div className="pt-4 ">{links}</div>
+            <div className="w-6 h-5 flex flex-col justify-between">
+              <span
+                className={`w-full h-0.5 bg-gray-900 transition-all duration-300 ${
+                  isMenuOpen ? "rotate-45 translate-y-2" : ""
+                }`}
+              ></span>
+              <span
+                className={`w-full h-0.5 bg-gray-900 transition-all duration-300 ${
+                  isMenuOpen ? "opacity-0" : ""
+                }`}
+              ></span>
+              <span
+                className={`w-full h-0.5 bg-gray-900 transition-all duration-300 ${
+                  isMenuOpen ? "-rotate-45 -translate-y-2" : ""
+                }`}
+              ></span>
+            </div>
+          </button>
+          
+          {/* Mobile Menu Drawer */}
+          {isMenuOpen && (
+            <div className="lg:hidden fixed inset-0 z-100">
+              {/* Backdrop */}
+              <div
+                className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300"
+                onClick={() => setIsMenuOpen(false)}
+              ></div>
+
+              {/* Slide-out Drawer */}
+              <div
+                className={`fixed top-0 left-0 h-full w-80 max-w-[85vw] bg-white shadow-2xl transform transition-transform duration-300 ease-out ${
+                  isMenuOpen ? "translate-x-0" : "-translate-x-full"
+                }`}
+              >
+                {/* Header */}
+                <div className="flex items-center justify-between p-4 border-b border-gray-200">
+                  {/* Logo */}
+                   <Link to="/" className="flex items-center gap-2">
+              {/* <img
+                src={logo}
+                alt="sportclub-Logo"
+                className="w-10 h-10 md:w-12 md:h-12 object-cover"
+              /> */}
+
+              <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+              <Trophy className="size-6 text-white" />
+            </div>
+              <h1 className="text-2xl font-bold text-gray-800">
+                Sport<span className="text-blue-400">Club</span>
+              </h1>
+            </Link>
+                  <button
+                    onClick={() => setIsMenuOpen(false)}
+                    className="p-2 rounded-full text-gray-600 hover:bg-gray-100"
+                    aria-label="Close menu"
+                  >
+                    <span className="text-3xl"> ✕</span>
+                  </button>
+                </div>
+
+                {/* Menu Content */}
+                <div className="flex flex-col h-full overflow-y-auto py-4">
+                  <div className="pt-4 ">{links}</div>
             <div className="p-1 py-2">
               <Link to="/login">
-                <button className="bg-primary text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-[#0e7aa8] transition-colors">
+                <button className="text-[#108ac2] px-4 py-2 rounded-lg text-sm font-semibold hover:bg-[#0e7aa8] transition-colors">
                   Login
                 </button>
               </Link>
             </div>
-          </ul>
+                </div>
+              </div>
+            </div>
+          )}
+
+         
         </nav>
       </Container>
     </div>
