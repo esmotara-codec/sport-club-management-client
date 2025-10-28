@@ -44,8 +44,8 @@ const Footer = () => {
 
       <div className="relative z-10">
         {/* Main Footer Content */}
-        <div className="container mx-auto px-4 py-8 md:py-12">
-          <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-2 xl:grid-cols-5 gap-8 lg:gap-6 ">
+        <div className="container px-4  py-8 md:py-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-2 xl:grid-cols-5 gap-8 lg:gap-5 ">
             
             {/* Company Info */}
             <div className="space-y-4 md:space-y-6 text-center sm:text-left">
@@ -162,13 +162,13 @@ const Footer = () => {
               {/* Newsletter */}
               <div className="space-y-3 md:space-y-4">
                 <h4 className="text-lg md:text-xl font-bold text-white">Stay Updated</h4>
-                <div className="flex flex-wrap sm:flex-row  gap-2">
+                <div className="flex flex-col sm:flex-row  gap-2">
                   <input 
                     type="email" 
                     placeholder="Enter your email"
-                    className="flex-1 px-4 py-2 text-sm md:text-base rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-[#108ac2] transition-colors"
+                    className="flex-1 px-4 lg:px-2 py-2 text-sm md:text-base rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-[#108ac2] transition-colors"
                   />
-                  <button className="bg-gradient-to-r from-[#108ac2] to-[#0d6fa0] text-white px-4 md:px-6 py-2 text-sm md:text-base rounded-lg font-medium hover:shadow-lg transition-all whitespace-nowrap">
+                  <button className="bg-gradient-to-r from-[#108ac2] to-[#0d6fa0] text-white px-4 md:px-4 py-2 text-sm md:text-base rounded-lg font-medium hover:shadow-lg transition-all whitespace-nowrap">
                     Subscribe
                   </button>
                 </div>

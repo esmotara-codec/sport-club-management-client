@@ -80,7 +80,7 @@ const Nav = () => {
           <ul className="hidden lg:flex items-center gap-8">{links}</ul>
 
           {/* Right Section: Auth Buttons */}
-          <div className="hidden md:flex items-center gap-2">
+          <div className="hidden lg:flex items-center gap-2">
             {loading ? null : !user ? (
               <div className="flex gap-2">
                 <Link to="/login">
