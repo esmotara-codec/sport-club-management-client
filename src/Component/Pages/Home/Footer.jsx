@@ -13,10 +13,10 @@ import {
 } from 'lucide-react';
 
 const Footer = () => {
-  const quickLinks = [
-    { name: 'Home', href: '/' },
-    { name: 'Courts', href: '/contact' },
-  ];
+  // const quickLinks = [
+  //   { name: 'Home', href: '/' },
+  //   { name: 'Courts', href: '/contact' },
+  // ];
 
   const services = [
     { name: 'Personal Training', href: '/personal-training' },
@@ -44,8 +44,8 @@ const Footer = () => {
 
       <div className="relative z-10">
         {/* Main Footer Content */}
-        <div className="container px-4  py-8 md:py-12">
-          <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-2 xl:grid-cols-5 gap-8 lg:gap-5 ">
+        <div className="container mx-auto px-4 py-8 md:py-12">
+          <div className="flex flex-col lg:flex-row  justify-between items-center md:items-start  gap-8 lg:gap-6 ">
             
             {/* Company Info */}
             <div className="space-y-4 md:space-y-6 text-center sm:text-left">
@@ -54,45 +54,45 @@ const Footer = () => {
                   <Trophy className="w-6 h-6 text-white" />
                 </div>
                 <div className="text-left">
-                  <h1 className="text-xl md:text-2xl font-bold text-white">
+                  <h1 className="text-xl md:text-2xl lg:text-xl font-bold text-white">
                     Sport<span className="text-blue-400">Club</span>
                   </h1>
-                  <p className="text-xs md:text-sm text-gray-400">Excellence in Sports</p>
+                  <p className="text-xs md:text-sm lg:text-xs text-gray-400">Excellence in Sports</p>
                 </div>
               </div>
               
-              <p className="text-sm md:text-base text-gray-300 leading-relaxed">
+              {/* <p className="text-sm md:text-base text-gray-300 leading-relaxed">
                 Empowering athletes and sports enthusiasts through world-class facilities, 
                 expert coaching, and a vibrant community.
-              </p>
+              </p> */}
 
               {/* Contact Information */}
               <div className="space-y-3 md:space-y-4">
                 <div className="flex items-start gap-3 justify-center sm:justify-start">
-                  <MapPin className="w-5 h-5 text-[#108ac2] flex-shrink-0 mt-0.5" />
-                  <p className="text-sm md:text-base text-gray-300 text-left">123 Sports Avenue, City 12345</p>
+                  <MapPin className="w-5 h-5 text-[#108ac2]  flex-shrink-0 mt-0.5" />
+                  <p className="text-sm md:text-base lg:text-sm text-gray-300 text-left">123 Sports Avenue, City 12345</p>
                 </div>
 
                 <div className="flex items-center gap-3 justify-center sm:justify-start">
                   <Phone className="w-5 h-5 text-[#108ac2] flex-shrink-0" />
-                  <p className="text-sm md:text-base text-gray-300">+1 (555) 123-4567</p>
+                  <p className="text-sm md:text-base lg:text-sm text-gray-300">+1 (555) 123-4567</p>
                 </div>
 
                 <div className="flex items-center gap-3 justify-center sm:justify-start">
                   <Mail className="w-5 h-5 text-[#108ac2] flex-shrink-0" />
-                  <p className="text-sm md:text-base text-gray-300">info@sportclub.com</p>
+                  <p className="text-sm md:text-base lg:text-sm text-gray-300">info@sportclub.com</p>
                 </div>
 
                 <div className="flex items-center gap-3 justify-center sm:justify-start">
                   <Clock className="w-5 h-5 text-[#108ac2] flex-shrink-0" />
-                  <p className="text-sm md:text-base text-gray-300">Mon - Sun: 6AM - 10PM</p>
+                  <p className="text-sm md:text-base lg:text-sm text-gray-300">Sat - Fri: 6AM - 10PM</p>
                 </div>
               </div>
             </div>
 
             {/* Quick Links */}
-            <div className="space-y-4 md:space-y-6 text-center sm:text-left">
-              <h4 className="text-lg md:text-xl font-bold text-white border-b-2 border-[#108ac2] pb-2 md:pb-3 inline-block">
+            {/* <div className="space-y-4 md:space-y-6 text-center sm:text-left">
+              <h4 className="text-lg md:text-xl lg:text-sm font-bold text-white border-b-2 border-[#108ac2] pb-2 md:pb-3 inline-block">
                 Quick Links
               </h4>
               <ul className="space-y-2 md:space-y-3">
@@ -108,11 +108,11 @@ const Footer = () => {
                   </li>
                 ))}
               </ul>
-            </div>
+            </div> */}
 
             {/* Services */}
             <div className="space-y-4 md:space-y-6 text-center sm:text-left">
-              <h4 className="text-lg md:text-xl font-bold text-white border-b-2 border-[#108ac2] pb-2 md:pb-3 inline-block">
+              <h4 className="text-lg md:text-xl lg:text-sm font-bold text-white border-b-2 border-[#108ac2] pb-2 md:pb-3 inline-block">
                 Our Services
               </h4>
               <ul className="space-y-2 md:space-y-3">
@@ -132,7 +132,7 @@ const Footer = () => {
 
             {/* Legal */}
             <div className="space-y-4 md:space-y-6 text-center sm:text-left">
-              <h4 className="text-lg md:text-xl font-bold text-white border-b-2 border-[#108ac2] pb-2 md:pb-3 inline-block">
+              <h4 className="text-lg md:text-xl lg:text-sm font-bold text-white border-b-2 border-[#108ac2] pb-2 md:pb-3 inline-block">
                 Legal
               </h4>
               <ul className="space-y-2 md:space-y-3">
@@ -161,14 +161,14 @@ const Footer = () => {
             <div className="space-y-4 md:space-y-6 text-center sm:text-left">
               {/* Newsletter */}
               <div className="space-y-3 md:space-y-4">
-                <h4 className="text-lg md:text-xl font-bold text-white">Stay Updated</h4>
-                <div className="flex flex-col sm:flex-row  gap-2">
+                <h4 className="text-lg md:text-xl lg:text-sm font-bold text-white">Stay Updated</h4>
+                <div className="flex flex-col sm:flex-row justify-center  gap-2">
                   <input 
                     type="email" 
                     placeholder="Enter your email"
-                    className="flex-1 px-4 lg:px-2 py-2 text-sm md:text-base rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-[#108ac2] transition-colors"
+                    className="w-48 flex-1 px-4 lg:px-2 py-2 text-sm md:text-base rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-[#108ac2] transition-colors"
                   />
-                  <button className="bg-gradient-to-r from-[#108ac2] to-[#0d6fa0] text-white px-4 md:px-4 py-2 text-sm md:text-base rounded-lg font-medium hover:shadow-lg transition-all whitespace-nowrap">
+                  <button className="bg-gradient-to-r from-[#108ac2] to-[#0d6fa0]  text-white px-4 md:px-4 py-2 text-sm md:text-base rounded-lg font-medium hover:shadow-lg transition-all whitespace-nowrap">
                     Subscribe
                   </button>
                 </div>
