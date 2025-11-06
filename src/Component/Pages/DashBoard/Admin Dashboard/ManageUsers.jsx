@@ -51,7 +51,7 @@ const ManageUsers = () => {
                                                 <img className="h-10 w-10 rounded-full" src={user.photoURL || 'https://i.pravatar.cc/150?u=' + user.email} alt="" />
                                             </div>
                                             <div className="ml-4">
-                                                <div className="text-sm font-medium text-gray-900">{user.name}</div>
+                                                <div className="text-sm font-medium text-gray-900">{user.name }</div>
                                             </div>
                                         </div>
                                     </td>

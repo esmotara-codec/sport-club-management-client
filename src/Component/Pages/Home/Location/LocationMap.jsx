@@ -18,7 +18,7 @@ export default function LocationMap() {
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         <Marker position={[23.8103, 90.4125]}>
-          <Popup>ATC TECH Limited, Dhaka</Popup>
+          <Popup>Sport Club, Dhaka</Popup>
         </Marker>
       </MapContainer>
     </section>

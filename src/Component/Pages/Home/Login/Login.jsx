@@ -14,8 +14,7 @@ const Login = () => {
   const { loginWithPassword , signInWithGoogle} = useContext(AuthContext);
   const axiosPublic= useAxiosPublic();
   const location = useLocation();
-  console.log(location);
-
+  
   // Handle form submission
   const handleLogin = (e) => {
     e.preventDefault();
